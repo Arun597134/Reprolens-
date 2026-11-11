@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Navbar } from './components/Navbar';
+import { LandingPage } from './pages/LandingPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { SessionsPage } from './pages/SessionsPage';
@@ -15,6 +16,9 @@ import { PlatformStats, Project, SessionSummary, BugReport } from './types';
 import { api } from './api';
 
 export function App() {
+  // Top-level View Mode: 'landing' (Enterprise Marketing & Extension Hub) or 'dashboard'
+  const [viewMode, setViewMode] = useState<'landing' | 'dashboard'>('dashboard');
+
   const [activeTab, setActiveTab] = useState('overview');
   const [stats, setStats] = useState<PlatformStats | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -49,7 +53,7 @@ export function App() {
 
   useEffect(() => {
     refreshAll();
-    const interval = setInterval(refreshAll, 10000); // 10s live polling
+    const interval = setInterval(refreshAll, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -63,6 +67,17 @@ export function App() {
     setActiveTab('session-detail');
   };
 
+  // If in landing page mode, render Enterprise Marketing & Extension Download Portal
+  if (viewMode === 'landing') {
+    return (
+      <LandingPage
+        onEnterDashboard={() => setViewMode('dashboard')}
+        onOpenDemo={() => window.open('http://localhost:3000', '_blank')}
+      />
+    );
+  }
+
+  // Developer Dashboard Mode
   return (
     <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
       <Sidebar
@@ -81,6 +96,7 @@ export function App() {
           selectedProject={projects[0]}
           onRefresh={refreshAll}
           isRefreshing={isRefreshing}
+          onGoToLanding={() => setViewMode('landing')}
         />
 
         <main className="flex-1 overflow-y-auto">

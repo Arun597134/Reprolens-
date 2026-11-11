@@ -68,6 +68,26 @@ def on_startup():
     seed_database()
     print("[ReproLens Backend] Ready at http://localhost:8000")
 
+@app.get("/download/extension.zip")
+@app.get("/download/reprolens-extension.zip")
+def download_extension_zip():
+    zip_path = Path(__file__).resolve().parent.parent / "storage" / "reprolens-extension-v1.0.0.zip"
+    if not zip_path.exists():
+        import zipfile
+        root_dir = Path(__file__).resolve().parent.parent.parent
+        zip_path.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+            for root, dirs, files in os.walk(root_dir / 'extension'):
+                for file in files:
+                    full_p = os.path.join(root, file)
+                    rel_p = os.path.relpath(full_p, root_dir / 'extension')
+                    zf.write(full_p, rel_p)
+    return FileResponse(
+        path=str(zip_path),
+        filename="reprolens-extension-v1.0.0.zip",
+        media_type="application/zip"
+    )
+
 @app.get("/")
 @app.get("/dashboard")
 def serve_dashboard():

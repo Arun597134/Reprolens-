@@ -54,7 +54,7 @@ def main():
         # 3. Start Frontend Dashboard
         print("  [3/3] Starting Developer Dashboard on http://localhost:5173...")
         npm_cmd = "npm.cmd" if sys.platform == "win32" else "npm"
-        frontend_proc = subprocess.Popen([npm_cmd, "run", "dev"], cwd=str(FRONTEND_DIR))
+        frontend_proc = subprocess.Popen([npm_cmd, "run", "dev"], cwd=str(FRONTEND_DIR), shell=(sys.platform == "win32"))
         processes.append(("Developer Dashboard", frontend_proc))
 
         time.sleep(2)
