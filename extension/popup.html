@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ReproLens Extension</title>
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      color: #38bdf8;
+    }
+    .badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #064e3b;
+      color: #34d399;
+      font-weight: 600;
+    }
+    .field {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .privacy-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 14px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .privacy-card span {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    button {
+      flex: 1;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+      ReproLens
+    </div>
+    <span class="badge">REC LIVE</span>
+  </div>
+
+  <div class="field">
+    <label>Project API Key</label>
+    <input type="text" id="api-key-input" placeholder="rpl_..." value="rpl_shopnow_demo_key_99">
+  </div>
+
+  <div class="field">
+    <label>Backend Ingestion Endpoint</label>
+    <input type="text" id="endpoint-input" value="http://localhost:8000/api/v1/ingest">
+  </div>
+
+  <div class="privacy-card">
+    🛡️ <span>Privacy Shield Enabled</span><br>
+    Client-side sanitization actively masks credit cards, passwords, bearer tokens & query secrets prior to transmission.
+  </div>
+
+  <div class="actions">
+    <button id="save-btn">Save Config</button>
+    <button class="secondary" id="dashboard-btn">Open Dashboard</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
