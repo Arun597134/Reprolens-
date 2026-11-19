@@ -29,31 +29,31 @@ export const BugsPage: React.FC<Props> = ({ bugs, onSelectBug }) => {
   });
 
   return (
-    <div className="space-y-6 p-8 max-w-7xl mx-auto">
+    <div className="space-y-6 p-8 max-w-7xl mx-auto text-[#111]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Bug Reports & Case Files</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-3xl font-light text-[#111] tracking-tight">Bug Reports &amp; Case Files</h1>
+          <p className="text-xs text-black/55 mt-1 font-mono">
             Correlated runtime exceptions, network drops, and user journey diagnostics
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-500" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-black/40" />
             <input
               type="text"
               placeholder="Search bugs, exceptions, routes..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500 w-64"
+              className="bg-white border border-black/15 rounded-xl pl-9 pr-3 py-2 text-xs text-[#111] font-mono focus:outline-none focus:border-black w-64 shadow-sm"
             />
           </div>
 
           <select
             value={severityFilter}
             onChange={(e) => setSeverityFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-brand-500"
+            className="bg-white border border-black/15 rounded-xl px-3 py-2 text-xs font-mono text-[#111] focus:outline-none focus:border-black shadow-sm"
           >
             <option value="all">All Severities</option>
             <option value="critical">Critical</option>
@@ -65,45 +65,41 @@ export const BugsPage: React.FC<Props> = ({ bugs, onSelectBug }) => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-brand-500"
+            className="bg-white border border-black/15 rounded-xl px-3 py-2 text-xs font-mono text-[#111] focus:outline-none focus:border-black shadow-sm"
           >
             <option value="all">All Statuses</option>
             <option value="open">Open</option>
             <option value="investigating">Investigating</option>
             <option value="reproduced">Reproduced</option>
-            <option value="regression_ready">Regression Ready</option>
             <option value="resolved">Resolved</option>
           </select>
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
-        <div className="divide-y divide-slate-800/80">
+      <div className="bg-white/80 backdrop-blur-md border border-black/[0.08] rounded-3xl overflow-hidden shadow-sm">
+        <div className="divide-y divide-black/[0.06]">
           {filtered.map((bug) => (
             <div
               key={bug.id}
               onClick={() => onSelectBug(bug.id)}
-              className="p-5 hover:bg-slate-850/60 transition cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4"
+              className="p-5 hover:bg-black/[0.02] transition cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono"
             >
-              <div className="space-y-1.5 max-w-4xl">
+              <div className="space-y-1.5 max-w-3xl">
                 <div className="flex items-center space-x-2.5">
                   <StatusBadge status={bug.severity} type="severity" />
                   <StatusBadge status={bug.status} type="status" />
-                  <span className="text-xs font-mono text-brand-400 font-semibold">{bug.error_type}</span>
-                  <span className="text-xs text-slate-500">&bull; {bug.url}</span>
+                  <span className="text-xs font-bold text-black/70">{bug.error_type}</span>
+                  <span className="text-xs text-black/45">&bull; {bug.url}</span>
                 </div>
-
-                <h3 className="font-bold text-base text-white hover:text-brand-400 transition">
+                <h4 className="font-bold text-sm text-[#111] hover:text-blue-600 transition">
                   {bug.title}
-                </h3>
-
-                <p className="text-xs text-slate-400 font-mono line-clamp-2 bg-slate-950/60 p-2 rounded border border-slate-800/80">
+                </h4>
+                <p className="text-xs text-black/60 line-clamp-1">
                   {bug.error_message}
                 </p>
-
-                <div className="flex items-center space-x-4 text-[11px] text-slate-500 pt-1">
-                  <span>Captured: {new Date(bug.created_at).toLocaleString()}</span>
-                  {bug.component_context && <span>Target: <code className="text-slate-400">{bug.component_context}</code></span>}
+                <div className="flex items-center gap-4 text-[11px] text-black/45 pt-1">
+                  <span>Reported: {new Date(bug.created_at).toLocaleString()}</span>
+                  {bug.session_id && <span>Session: <strong className="text-black/70">{bug.session_id}</strong></span>}
                 </div>
               </div>
 
@@ -113,18 +109,17 @@ export const BugsPage: React.FC<Props> = ({ bugs, onSelectBug }) => {
                     e.stopPropagation();
                     onSelectBug(bug.id);
                   }}
-                  className="flex items-center space-x-1.5 px-3.5 py-2 bg-brand-600/10 hover:bg-brand-600/20 text-brand-400 text-xs font-bold rounded-lg border border-brand-500/30 transition shadow-sm"
+                  className="px-4 py-2 bg-[#111] hover:bg-black text-white text-xs font-bold rounded-xl transition shadow-sm"
                 >
-                  <span>Investigate Case</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  Inspect Case &rarr;
                 </button>
               </div>
             </div>
           ))}
 
           {filtered.length === 0 && (
-            <div className="p-12 text-center text-xs text-slate-500">
-              No bug reports matching your criteria.
+            <div className="p-16 text-center text-xs text-black/45 font-mono">
+              No bug reports found matching the filters.
             </div>
           )}
         </div>

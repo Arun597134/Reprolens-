@@ -5,7 +5,10 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({
     recording: true,
     apiKey: "rpl_shopnow_demo_key_99",
-    endpoint: DEFAULT_ENDPOINT
+    endpoint: DEFAULT_ENDPOINT,
+    chaosLatencyMs: 0,
+    chaosForce500: false,
+    flightRecorderMode: false
   });
   console.log("[ReproLens Extension] Installed and initialized.");
 });
@@ -30,6 +33,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           viewport_h: request.payload.viewport_h,
           url: request.payload.url,
           duration_ms: request.payload.duration_ms,
+          source: "chrome_extension",
           events: request.payload.events
         })
       })

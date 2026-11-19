@@ -28,14 +28,22 @@ def list_sessions(
 
 @router.get("/{session_id}", response_model=SessionDetail)
 def get_session(session_id: str, db: Session = Depends(get_db)):
-    session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
+    session = (
+        db.query(SessionModel)
+        .filter((SessionModel.id == session_id) | (SessionModel.session_token == session_id))
+        .first()
+    )
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
     return session
 
 @router.delete("/{session_id}")
 def delete_session(session_id: str, db: Session = Depends(get_db)):
-    session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
+    session = (
+        db.query(SessionModel)
+        .filter((SessionModel.id == session_id) | (SessionModel.session_token == session_id))
+        .first()
+    )
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
     db.delete(session)

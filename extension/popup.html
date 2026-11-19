@@ -5,11 +5,11 @@
   <title>ReproLens Extension</title>
   <style>
     body {
-      width: 320px;
+      width: 360px;
       margin: 0;
       padding: 16px;
-      background-color: #0b0f19;
-      color: #f1f5f9;
+      background-color: #090A0F;
+      color: #F8FAFC;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
     }
@@ -17,7 +17,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #1e293b;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding-bottom: 12px;
       margin-bottom: 14px;
     }
@@ -25,51 +25,189 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-weight: 700;
-      font-size: 15px;
-      color: #38bdf8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: #FFFFFF;
+    }
+    .brand-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      color: #090A0F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
     }
     .badge {
       font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: #064e3b;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
       color: #34d399;
-      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
     }
     .field {
       margin-bottom: 12px;
     }
-    label {
+    label.title {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #94a3b8;
-      margin-bottom: 4px;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 5px;
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
     }
-    input {
+    input[type="text"] {
       width: 100%;
       box-sizing: border-box;
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #f8fafc;
+      background: #12141F;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
       padding: 8px 10px;
-      border-radius: 6px;
+      border-radius: 10px;
       font-size: 12px;
+      font-family: ui-monospace, monospace;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+    .chaos-card {
+      background: #111422;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .chaos-title {
+      font-family: ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #fbbf24;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chaos-badge {
+      font-size: 9px;
+      font-family: ui-monospace, monospace;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .toggle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .toggle-row:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      min-width: 0;
+    }
+    .toggle-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #F8FAFC;
+      line-height: 1.25;
+    }
+    .toggle-subtext {
+      font-size: 9px;
+      font-family: ui-monospace, monospace;
+      color: rgba(255, 255, 255, 0.45);
+      line-height: 1.2;
+    }
+    /* Modern Slider Switch Component */
+    .toggle-switch {
+      position: relative;
+      width: 34px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+      margin: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 18px;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      left: 2px;
+      bottom: 2px;
+      background-color: #94a3b8;
+      border-radius: 50%;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: #f59e0b;
+      border-color: #f59e0b;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(16px);
+      background-color: #ffffff;
     }
     .privacy-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 6px;
-      padding: 10px;
-      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 12px;
       font-size: 11px;
-      color: #9ca3af;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
     }
-    .privacy-card span {
-      color: #10b981;
-      font-weight: 600;
+    .privacy-card strong {
+      color: #34d399;
+      font-weight: 700;
     }
     .actions {
       display: flex;
@@ -78,49 +216,353 @@
     }
     button {
       flex: 1;
-      background: #2563eb;
-      color: white;
+      background: #FFFFFF;
+      color: #090A0F;
       border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
       cursor: pointer;
+      font-family: ui-monospace, monospace;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
     }
     button.secondary {
-      background: #1e293b;
-      color: #cbd5e1;
-      border: 1px solid #334155;
+      background: #12141F;
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    button.secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* AI Bug Hunter & Ambient Background Radar */
+    .hunter-card {
+      background: linear-gradient(180deg, #0e1222 0%, #080a14 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    /* Subtle Background Animation (No foreground clutter) */
+    .hunter-bg-ambient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .hunter-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+      background-size: 16px 16px;
+      opacity: 0.6;
+    }
+    .hunter-bg-beam {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(59, 130, 246, 0.22) 0deg, rgba(59, 130, 246, 0) 70deg, transparent 360deg);
+      animation: radar-sweep 3.5s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hunter-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hunter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .hunter-header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hunter-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 800;
+      color: #60a5fa;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .radar-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #3b82f6;
+      box-shadow: 0 0 8px #3b82f6;
+      animation: pulse-dot 1.5s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+    .hunter-badge {
+      font-size: 9px;
+      font-family: ui-monospace, monospace;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      letter-spacing: 0.06em;
+      transition: all 0.3s;
+    }
+    .hunter-badge.detected {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+    .hunter-badge.fixing {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.5);
+    }
+    .hunter-badge.solved {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .radar-blip {
+      display: none;
+      position: relative;
+      width: 12px;
+      height: 12px;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-blip.active {
+      display: inline-flex;
+    }
+    .blip-core {
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+    }
+    .blip-wave {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid #ef4444;
+      animation: ping-wave 1.2s infinite;
+    }
+    @keyframes ping-wave {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* Hunter Log Box */
+    .hunter-log-box {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-family: ui-monospace, monospace;
+    }
+    .hunter-log-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 3px;
+    }
+    .log-indicator {
+      font-size: 10px;
+    }
+    .log-indicator.green { color: #34d399; }
+    .log-indicator.red { color: #f87171; animation: blink 0.5s infinite; }
+    .log-indicator.yellow { color: #fbbf24; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    .hunter-log-desc {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.35;
+    }
+    .hunter-log-code {
+      margin-top: 6px;
+      background: #05060A;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 9.5px;
+      color: #34d399;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Hunter Trigger Button */
+    .hunter-trigger-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #1d4ed8, #2563eb);
+      color: #FFFFFF;
+      border: none;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      font-family: ui-monospace, monospace;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .hunter-trigger-btn:hover {
+      background: linear-gradient(90deg, #1e40af, #1d4ed8);
+      transform: translateY(-1px);
     }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="brand">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
-      ReproLens
+      <div class="brand-icon">R</div>
+      <span>REPROLENS</span>
     </div>
-    <span class="badge">REC LIVE</span>
+    <span class="badge">MV3 MAIN</span>
   </div>
 
   <div class="field">
-    <label>Project API Key</label>
-    <input type="text" id="api-key-input" placeholder="rpl_..." value="rpl_shopnow_demo_key_99">
+    <label class="title">Project API Key</label>
+    <input type="text" id="api-key-input" placeholder="rpl_..." value="rpl_3b40c1052e5b1070bd90ee0900d884af">
   </div>
 
   <div class="field">
-    <label>Backend Ingestion Endpoint</label>
+    <label class="title">Backend Ingestion Endpoint</label>
     <input type="text" id="endpoint-input" value="http://localhost:8000/api/v1/ingest">
   </div>
 
+  <!-- LIVE AI BUG HUNTER & AUTO-SOLVER (AMBIENT BACKGROUND RADAR) -->
+  <div class="hunter-card">
+    <!-- Ambient Background Animation (Subtle cyber grid & radial sweep behind content) -->
+    <div class="hunter-bg-ambient">
+      <div class="hunter-bg-grid"></div>
+      <div class="hunter-bg-beam"></div>
+    </div>
+
+    <div class="hunter-content">
+      <div class="hunter-header">
+        <div class="hunter-title">
+          <span class="radar-dot"></span>
+          <span>AI BUG HUNTER &amp; AUTO-SOLVER</span>
+        </div>
+        <div class="hunter-header-right">
+          <div class="radar-blip" id="radar-blip">
+            <span class="blip-core"></span>
+            <span class="blip-wave"></span>
+          </div>
+          <span class="hunter-badge" id="hunter-phase-badge">SCANNING</span>
+        </div>
+      </div>
+
+      <!-- Live Bug Hunter Ticker / Log Console -->
+      <div class="hunter-log-box">
+        <div class="hunter-log-status">
+          <span class="log-indicator green" id="log-indicator">●</span>
+          <span class="log-title" id="log-title">Scanning DOM &amp; Network Streams...</span>
+        </div>
+        <div class="hunter-log-desc" id="hunter-log-desc">
+          Listening for unhandled exceptions, 500 status codes &amp; clickstream anomalies.
+        </div>
+        <div class="hunter-log-code" id="hunter-log-code" style="display: none;"><code>// AI Safe Fallback Patch applied:
+cart?.items?.map(i =&gt; i.price) ?? []</code></div>
+      </div>
+
+      <!-- Quick Trigger Action Button -->
+      <button type="button" class="hunter-trigger-btn" id="hunter-sim-btn">
+        SIMULATE BUG &amp; AUTO-SOLVE
+      </button>
+    </div>
+  </div>
+
+  <div class="chaos-card">
+    <div class="chaos-title">
+      <div class="chaos-title-left">
+        <span>CHAOS SIMULATOR</span>
+      </div>
+      <span class="chaos-badge">QA RUNTIME</span>
+    </div>
+
+    <div class="toggle-list">
+      <label class="toggle-row" for="chaos-latency-toggle">
+        <div class="toggle-info">
+          <span class="toggle-label">Slow 3G Network Latency</span>
+          <span class="toggle-subtext">+2.5s simulated connection delay</span>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="chaos-latency-toggle">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-row" for="chaos-500-toggle">
+        <div class="toggle-info">
+          <span class="toggle-label">Force API HTTP 500 Drop</span>
+          <span class="toggle-subtext">Drop fetch responses with status 500</span>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="chaos-500-toggle">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-row" for="flight-recorder-toggle">
+        <div class="toggle-info">
+          <span class="toggle-label">Black-Box Flight Recorder</span>
+          <span class="toggle-subtext">Continuous 45s circular buffer</span>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="flight-recorder-toggle">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+    </div>
+  </div>
+
   <div class="privacy-card">
-    🛡️ <span>Privacy Shield Enabled</span><br>
-    Client-side sanitization actively masks credit cards, passwords, bearer tokens & query secrets prior to transmission.
+    <strong>Zero-PII + Silent UX Radar</strong><br>
+    MAIN-world fetch/console spy + Rage/Dead-Click detection + local card/token scrubbing active.
   </div>
 
   <div class="actions">
-    <button id="save-btn">Save Config</button>
-    <button class="secondary" id="dashboard-btn">Open Dashboard</button>
+    <button id="save-btn">SAVE CONFIG</button>
+    <button class="secondary" id="dashboard-btn">OPEN DASHBOARD</button>
   </div>
 
   <script src="popup.js"></script>

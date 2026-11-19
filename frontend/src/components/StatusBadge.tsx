@@ -8,20 +8,20 @@ interface Props {
 export const StatusBadge: React.FC<Props> = ({ status, type = 'status' }) => {
   const s = (status || '').toLowerCase();
 
-  let colorClasses = 'bg-slate-800 text-slate-300 border-slate-700';
+  let colorClasses = 'bg-black/5 text-black/70 border-black/10';
 
   if (s === 'critical' || s === 'failed' || s === 'failing' || s === 'error') {
-    colorClasses = 'bg-red-950/70 text-red-400 border-red-800/60';
+    colorClasses = 'bg-rose-50 text-rose-800 border-rose-200';
   } else if (s === 'high' || s === 'warning' || s === 'inconclusive') {
-    colorClasses = 'bg-amber-950/70 text-amber-400 border-amber-800/60';
+    colorClasses = 'bg-amber-50 text-amber-800 border-amber-200';
   } else if (s === 'reproduced' || s === 'passing' || s === 'resolved' || s === 'approved' || s === 'completed') {
-    colorClasses = 'bg-emerald-950/70 text-emerald-400 border-emerald-800/60';
+    colorClasses = 'bg-emerald-50 text-emerald-800 border-emerald-200';
   } else if (s === 'investigating' || s === 'regression_ready' || s === 'running' || s === 'draft') {
-    colorClasses = 'bg-blue-950/70 text-blue-400 border-blue-800/60';
+    colorClasses = 'bg-blue-50 text-blue-800 border-blue-200';
   } else if (s === 'open' || s === 'medium' || s === 'active') {
-    colorClasses = 'bg-indigo-950/70 text-indigo-300 border-indigo-800/60';
+    colorClasses = 'bg-indigo-50 text-indigo-800 border-indigo-200';
   } else if (s === 'low') {
-    colorClasses = 'bg-slate-800 text-slate-400 border-slate-700';
+    colorClasses = 'bg-black/5 text-black/60 border-black/10';
   }
 
   const formatText = (txt: string) => {
@@ -29,7 +29,7 @@ export const StatusBadge: React.FC<Props> = ({ status, type = 'status' }) => {
   };
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold border ${colorClasses}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border tracking-wider ${colorClasses}`}>
       {formatText(status)}
     </span>
   );

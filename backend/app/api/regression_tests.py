@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
 from sqlalchemy.orm import Session
@@ -30,12 +31,20 @@ def generate_regression_test(payload: RegressionTestGenerateRequest, db: Session
         evts = db.query(EventModel).filter(EventModel.session_id == bug.session_id).order_by(EventModel.timestamp_offset_ms.asc()).all()
         events_data = [{"event_type": e.event_type, "payload": e.payload} for e in evts]
 
+    # Resolve target URL strictly from bug, session, or project
+    target_bug_url = (
+        bug.url 
+        or session_meta.get("url") 
+        or (bug.project.website_url if bug.project and bug.project.website_url else None)
+    )
+
     gen_data = test_generator.generate_playwright_test(
         bug_report={
             "id": bug.id,
             "title": bug.title,
             "error_message": bug.error_message,
-            "url": bug.url
+            "url": target_bug_url,
+            "project": {"website_url": bug.project.website_url if bug.project else None}
         },
         session_events=events_data,
         session_meta=session_meta
@@ -63,13 +72,23 @@ async def run_regression_test(payload: RegressionTestRunRequest, db: Session = D
     if not test_obj:
         raise HTTPException(status_code=404, detail="Regression test not found")
 
-    # Run Playwright test
-    target_url = "http://localhost:3000"
+    # Run Playwright test on the bug's actual target application URL
+    target_url = None
+    if test_obj.bug:
+        if test_obj.bug.url and "localhost:3000" not in test_obj.bug.url:
+            target_url = test_obj.bug.url
+        elif test_obj.bug.project and test_obj.bug.project.website_url:
+            target_url = test_obj.bug.project.website_url
+        elif test_obj.bug.session_id:
+            sess = db.query(SessionModel).filter(SessionModel.id == test_obj.bug.session_id).first()
+            if sess and sess.url:
+                target_url = sess.url
+
     result = await test_generator.execute_test(test_obj.test_code, target_url=target_url)
 
     test_obj.status = "passing" if result["status"] == "passing" else "failing"
     test_obj.execution_result = result
-    test_obj.last_run_at = db.query(RegressionTest).filter(RegressionTest.id == test_obj.id).first().created_at
+    test_obj.last_run_at = datetime.utcnow()
 
     db.commit()
     db.refresh(test_obj)

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Navbar } from './components/Navbar';
 import { LandingPage } from './pages/LandingPage';
+import { CinematicIntro } from './components/CinematicIntro';
 import { OverviewPage } from './pages/OverviewPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { SessionsPage } from './pages/SessionsPage';
@@ -16,8 +17,34 @@ import { PlatformStats, Project, SessionSummary, BugReport } from './types';
 import { api } from './api';
 
 export function App() {
-  // Top-level View Mode: 'landing' (Enterprise Marketing & Extension Hub) or 'dashboard'
-  const [viewMode, setViewMode] = useState<'landing' | 'dashboard'>('dashboard');
+  const [viewMode, setViewModeState] = useState<'landing' | 'dashboard'>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'landing') return 'landing';
+      if (params.get('view') === 'dashboard') return 'dashboard';
+      const saved = localStorage.getItem('reprolens_view_mode');
+      if (saved === 'landing' || saved === 'dashboard') return saved;
+    }
+    return 'landing';
+  });
+
+  const [showIntro, setShowIntro] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('intro') === 'true') return true;
+      if (params.get('intro') === 'false') return false;
+      const hasDismissed = sessionStorage.getItem('reprolens_intro_dismissed');
+      return !hasDismissed;
+    }
+    return true;
+  });
+
+  const setViewMode = (mode: 'landing' | 'dashboard') => {
+    setViewModeState(mode);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('reprolens_view_mode', mode);
+    }
+  };
 
   const [activeTab, setActiveTab] = useState('overview');
   const [stats, setStats] = useState<PlatformStats | null>(null);
@@ -67,19 +94,29 @@ export function App() {
     setActiveTab('session-detail');
   };
 
-  // If in landing page mode, render Enterprise Marketing & Extension Download Portal
+  // If in landing mode (direct web visit or toggled via navbar), render LandingPage
   if (viewMode === 'landing') {
     return (
-      <LandingPage
-        onEnterDashboard={() => setViewMode('dashboard')}
-        onOpenDemo={() => window.open('http://localhost:3000', '_blank')}
-      />
+      <>
+        {showIntro && (
+          <CinematicIntro
+            onComplete={() => {
+              setShowIntro(false);
+              sessionStorage.setItem('reprolens_intro_dismissed', 'true');
+            }}
+          />
+        )}
+        <LandingPage
+          onEnterDashboard={() => setViewMode('dashboard')}
+          onReplayIntro={() => setShowIntro(true)}
+        />
+      </>
     );
   }
 
-  // Developer Dashboard Mode
+  // Enterprise Light Theme Developer Dashboard Mode
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#F5F4F0] text-[#111111] overflow-hidden font-sans">
       <Sidebar
         activeTab={activeTab.startsWith('bug-detail') ? 'bugs' : activeTab.startsWith('session-detail') ? 'sessions' : activeTab}
         setActiveTab={(t) => {
@@ -90,7 +127,7 @@ export function App() {
         unresolvedCount={stats?.unresolved_bugs}
       />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#F5F4F0]">
         <Navbar
           projects={projects}
           selectedProject={projects[0]}
@@ -99,7 +136,7 @@ export function App() {
           onGoToLanding={() => setViewMode('landing')}
         />
 
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-[#F5F4F0]">
           {activeTab === 'overview' && (
             <OverviewPage
               stats={stats}

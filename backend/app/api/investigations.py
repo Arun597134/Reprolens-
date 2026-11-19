@@ -1,8 +1,10 @@
+from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.core.config import settings
 from app.core.database import get_db
-from app.models.schema import BugReport, Session as SessionModel, Event as EventModel, Investigation, SystemSetting
-from app.schemas.dtos import InvestigationTriggerRequest, InvestigationResponse
+from app.models.schema import BugReport, Session as SessionModel, Event as EventModel, Investigation, Reproduction, SystemSetting
+from app.schemas.dtos import InvestigationTriggerRequest, InvestigationResponse, VisionAuditRequest
 from app.services.ai_investigator import ai_investigator
 
 router = APIRouter(prefix="/investigations", tags=["AI Investigation"])
@@ -46,12 +48,17 @@ async def trigger_investigation(payload: InvestigationTriggerRequest, db: Sessio
         ]
 
     # Check for stored API keys if external LLM requested
-    api_key = None
+    gemini_key = None
+    openai_key = None
     if payload.use_external_llm:
-        provider = payload.ai_provider or "gemini"
-        key_setting = db.query(SystemSetting).filter(SystemSetting.key == f"{provider.upper()}_API_KEY").first()
-        if key_setting and key_setting.value:
-            api_key = key_setting.value
+        g_setting = db.query(SystemSetting).filter(SystemSetting.key == "GEMINI_API_KEY").first()
+        o_setting = db.query(SystemSetting).filter(SystemSetting.key == "OPENAI_API_KEY").first()
+        if g_setting and g_setting.value:
+            gemini_key = g_setting.value
+        if o_setting and o_setting.value:
+            openai_key = o_setting.value
+        if payload.ai_provider == "openai":
+            gemini_key = None
 
     # Run AI Investigator
     result = ai_investigator.investigate(
@@ -67,7 +74,8 @@ async def trigger_investigation(payload: InvestigationTriggerRequest, db: Sessio
         session_events=events_data,
         session_meta=session_meta,
         use_external_llm=payload.use_external_llm,
-        api_key=api_key
+        api_key=gemini_key,
+        openai_api_key=openai_key,
     )
 
     # Save to database
@@ -92,3 +100,72 @@ async def trigger_investigation(payload: InvestigationTriggerRequest, db: Sessio
     db.refresh(investigation)
 
     return investigation
+
+
+@router.post("/vision-audit")
+def run_vision_audit(payload: VisionAuditRequest, db: Session = Depends(get_db)):
+    """Correlate a captured reproduction screenshot with DOM error context via Gemini Vision."""
+    bug = db.query(BugReport).filter(BugReport.id == payload.bug_id).first()
+    if not bug:
+        raise HTTPException(status_code=404, detail="Bug report not found")
+
+    repro_query = db.query(Reproduction).filter(Reproduction.bug_id == bug.id)
+    if payload.reproduction_id:
+        repro = repro_query.filter(Reproduction.id == payload.reproduction_id).first()
+    else:
+        repro = repro_query.order_by(Reproduction.created_at.desc()).first()
+
+    screenshot_rel = repro.screenshot_url if repro else None
+    if not screenshot_rel and repro and repro.reproduction_steps:
+        for step in reversed(repro.reproduction_steps):
+            if step.get("screenshot_url"):
+                screenshot_rel = step["screenshot_url"]
+                break
+
+    if not screenshot_rel:
+        raise HTTPException(
+            status_code=400,
+            detail="No screenshot available for this bug yet. Run Browser Reproduction first."
+        )
+
+    shot_path = Path(settings.SCREENSHOTS_PATH) / Path(screenshot_rel).name
+    if not shot_path.exists():
+        raise HTTPException(status_code=404, detail=f"Screenshot file missing on disk: {shot_path.name}")
+
+    g_setting = db.query(SystemSetting).filter(SystemSetting.key == "GEMINI_API_KEY").first()
+    gemini_key = g_setting.value if (g_setting and g_setting.value) else None
+
+    audit = ai_investigator.audit_screenshot_vision(
+        screenshot_path=shot_path,
+        bug_report={
+            "id": bug.id,
+            "title": bug.title,
+            "error_type": bug.error_type,
+            "error_message": bug.error_message,
+            "url": bug.url,
+        },
+        api_key=gemini_key,
+    )
+    audit["screenshot_url"] = screenshot_rel
+
+    inv = db.query(Investigation).filter(Investigation.bug_id == bug.id).order_by(Investigation.created_at.desc()).first()
+    if inv:
+        inv.evidence = {**(inv.evidence or {}), "vision_audit": audit}
+    else:
+        inv = Investigation(
+            bug_id=bug.id,
+            status="completed",
+            summary=audit.get("summary", ""),
+            root_cause_analysis=audit.get("summary", ""),
+            observed_facts=[f"Visual Audit ({audit.get('visual_verdict')}): {audit.get('summary')}"],
+            inferred_explanations=[],
+            unverified_hypotheses=[],
+            confidence_score=audit.get("confidence_score", 0.85),
+            fix_recommendations=[],
+            evidence={"vision_audit": audit},
+            ai_model_used=audit.get("model_used", "Gemini Vision"),
+        )
+        db.add(inv)
+    db.commit()
+
+    return {"bug_id": bug.id, "investigation_id": inv.id, "vision_audit": audit}

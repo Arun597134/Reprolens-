@@ -18,3 +18,11 @@ playwright-report/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary inspection files & runtime screenshots
+check_*.py
+inspect_*.py
+search_*.py
+v0_source.html
+backend/storage/screenshots/
+*.sqlite3

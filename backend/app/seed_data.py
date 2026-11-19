@@ -9,9 +9,9 @@ def seed_database():
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
-    # Check if already seeded
-    if db.query(Project).filter(Project.name == "ShopNow E-Commerce").first():
-        print("Database already seeded with demo data.")
+    # Check if already seeded (any existing project preserves user-customized configs)
+    if db.query(Project).first():
+        print("Database already seeded.")
         db.close()
         return
 
@@ -420,7 +420,8 @@ test("checkout handles payment API failure gracefully without crashing", async (
         ("default_reproduction_timeout_s", "30", "Timeout for Playwright reproduction")
     ]
     for k, v, desc in default_settings:
-        db.add(SystemSetting(key=k, value=v, description=desc))
+        if not db.query(SystemSetting).filter(SystemSetting.key == k).first():
+            db.add(SystemSetting(key=k, value=v, description=desc))
 
     db.commit()
     db.close()

@@ -4,23 +4,140 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100 antialiased;
+    background-color: #090A0F;
+    color: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 }
 
-/* Custom Scrollbar for Engineering Dashboards */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b1120;
+  background: #F5F4F0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #d4d2c9;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #111111;
+}
+
+/* Marquee infinite scroll animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 25s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Status Pulse Animation */
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.9); }
+}
+.animate-status-pulse {
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+/* Row Slide In Animation */
+@keyframes rowSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Progressive Blur Bottom Mask for Video Hero */
+.hero-gradient-overlay {
+  background: linear-gradient(to top, #F5F4F0 0%, #F5F4F0 22%, rgba(245,244,240,0.85) 45%, rgba(245,244,240,0.4) 70%, transparent 100%);
+}
+.hero-gradient-overlay-dark {
+  background: linear-gradient(to top, #090A0F 0%, #090A0F 22%, rgba(9,10,15,0.92) 45%, rgba(9,10,15,0.5) 70%, transparent 100%);
+}
+
+/* Footer Slow Floating Artwork Animation */
+@keyframes slowFooterFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+.animate-footer-float {
+  animation: slowFooterFloat 9s ease-in-out infinite;
+}
+
+/* Agentic Pixel Brand Font Style */
+.font-pixel {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+}
+
+/* Cinematic Cyber Intro Keyframes */
+@keyframes laserScanline {
+  0% { transform: translateY(0%); opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0.8; }
+}
+
+@keyframes cyberShockwave {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+@keyframes glitchFlicker {
+  0%, 100% { opacity: 1; transform: translate(0, 0); }
+  20% { opacity: 0.8; transform: translate(-2px, 2px); }
+  40% { opacity: 1; transform: translate(2px, -2px); }
+  60% { opacity: 0.7; transform: translate(-1px, -1px); }
+  80% { opacity: 1; transform: translate(1px, 1px); }
+}
+
+.animate-shockwave {
+  animation: cyberShockwave 1.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-glitch {
+  animation: glitchFlicker 0.4s ease infinite;
+}
+
+/* n8n Workflow Noodle Animated Pulse */
+@keyframes dash {
+  from {
+    stroke-dashoffset: 48;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Cyber Radar Scan & Beam Animations */
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scanBeam {
+  0% { transform: translateY(-50%); opacity: 0; }
+  25% { opacity: 0.7; }
+  75% { opacity: 0.7; }
+  100% { transform: translateY(450%); opacity: 0; }
+}
+
+@keyframes pingRadar {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
 }

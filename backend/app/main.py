@@ -18,6 +18,10 @@ from app.api.reproductions import router as reproductions_router
 from app.api.regression_tests import router as regression_tests_router
 from app.api.stats import router as stats_router
 from app.api.settings_api import router as settings_router
+from app.api.github_pr import router as github_pr_router
+from app.api.webhooks import router as webhooks_router
+from app.api.auto_heal import router as auto_heal_router
+from app.api.auto_shield import router as auto_shield_router
 
 # Initialize database tables
 Base.metadata.create_all(bind=engine)
@@ -61,6 +65,10 @@ app.include_router(reproductions_router, prefix=settings.API_V1_STR)
 app.include_router(regression_tests_router, prefix=settings.API_V1_STR)
 app.include_router(stats_router, prefix=settings.API_V1_STR)
 app.include_router(settings_router, prefix=settings.API_V1_STR)
+app.include_router(github_pr_router, prefix=settings.API_V1_STR)
+app.include_router(webhooks_router, prefix=settings.API_V1_STR)
+app.include_router(auto_heal_router, prefix=settings.API_V1_STR)
+app.include_router(auto_shield_router, prefix=settings.API_V1_STR)
 
 @app.on_event("startup")
 def on_startup():
@@ -68,6 +76,7 @@ def on_startup():
     seed_database()
     print("[ReproLens Backend] Ready at http://localhost:8000")
 
+@app.get("/download/extension")
 @app.get("/download/extension.zip")
 @app.get("/download/reprolens-extension.zip")
 def download_extension_zip():

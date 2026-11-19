@@ -41,7 +41,7 @@ def main():
     try:
         # 1. Start Backend
         print("  [1/3] Starting ReproLens FastAPI Backend on http://localhost:8000...")
-        backend_cmd = [sys.executable, "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+        backend_cmd = [sys.executable, "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
         backend_proc = subprocess.Popen(backend_cmd, cwd=str(BACKEND_DIR), env=env)
         processes.append(("Backend API", backend_proc))
 
