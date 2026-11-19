@@ -3,7 +3,8 @@ import {
   Play, RotateCcw, Activity, ShieldCheck, Sparkles, PlayCircle,
   Layers, GitPullRequest, Bell, CheckCircle2, ChevronRight, X,
   Maximize2, Minimize2, ZoomIn, ZoomOut, Compass, Terminal, Code2, ArrowUpRight,
-  Split, Globe, ExternalLink, Check, Copy, Volume2, Gauge, Laptop
+  Split, Globe, ExternalLink, Check, Copy, Volume2, Gauge, Laptop,
+  SkipForward, SkipBack, ChevronUp, ChevronDown, Zap, Sliders, Pause
 } from 'lucide-react';
 
 export interface N8nNode {
@@ -442,12 +443,55 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
   isDark = true,
   onOpenDashboard,
 }) => {
+  type ScenarioType = 'internal' | 'external' | 'perf';
+  const [scenario, setScenario] = useState<ScenarioType>('internal');
   const [selectedNode, setSelectedNode] = useState<N8nNode | null>(null);
   const [simulatingNodeId, setSimulatingNodeId] = useState<string | null>(null);
   const [isSimulating, setIsSimulating] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(0.92);
   const [copiedPayload, setCopiedPayload] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const [simSpeed, setSimSpeed] = useState<number>(1);
+  const [currentStepIdx, setCurrentStepIdx] = useState<number>(-1);
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+  const [executionLogs, setExecutionLogs] = useState<Array<{
+    id: string;
+    time: string;
+    nodeId: string;
+    nodeName: string;
+    status: 'OK' | 'INTERCEPT' | 'RUNNING';
+    latency: string;
+    message: string;
+  }>>([
+    {
+      id: 'init-1',
+      time: '12:00:00',
+      nodeId: 'node-1',
+      nodeName: 'Bug Ingest Trigger',
+      status: 'OK',
+      latency: '0.2ms',
+      message: 'Workflow pipeline ready. Select scenario and execute.'
+    }
+  ]);
+
+  const SCENARIOS: Record<ScenarioType, { title: string; subtitle: string; steps: string[] }> = {
+    internal: {
+      title: 'E-Commerce Crash (PR Auto-Merge)',
+      subtitle: 'Verified Repo • Auto-Shield • PR Studio • Auto-Close',
+      steps: ['node-1', 'node-2', 'node-3', 'node-4', 'node-5', 'node-autoshield', 'node-6', 'node-vscode', 'node-7a', 'node-8', 'node-9']
+    },
+    external: {
+      title: '3rd-Party SaaS Site (Passive Audit)',
+      subtitle: 'External Domain • No Git Write • Diagnostic Only',
+      steps: ['node-1', 'node-2', 'node-3', 'node-4', 'node-5', 'node-autoshield', 'node-6', 'node-7b', 'node-9']
+    },
+    perf: {
+      title: 'Memory Stall & Standup Audio RCA',
+      subtitle: 'Heap Velocity • 60 FPS Dip • 30s Voice Briefing',
+      steps: ['node-1', 'node-2', 'node-voice', 'node-radar', 'node-5', 'node-autoshield', 'node-9']
+    }
+  };
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -472,44 +516,104 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
     }
   }, [simulatingNodeId]);
 
+  const getLogForNode = (nodeId: string) => {
+    switch (nodeId) {
+      case 'node-1':
+        return { message: 'Flight Recorder buffered DOM clickstream & unhandled exception across active tab.', latency: '0.2ms', status: 'OK' as const };
+      case 'node-2':
+        return { message: 'Luhn mathematical algorithm masked 1 credit card; stripped Bearer authorization header.', latency: '0.4ms', status: 'OK' as const };
+      case 'node-3':
+        return { message: 'Reconstructed source map. Root cause: ProjectsGrid.tsx:42 hydrated with undefined.', latency: '14.2ms', status: 'OK' as const };
+      case 'node-voice':
+        return { message: 'Synthesized 28.4s executive standup audio briefing with 5-bar animated equalizer.', latency: '18.1ms', status: 'OK' as const };
+      case 'node-radar':
+        return { message: 'JS Heap velocity clocked at 4.2 MB/s; detected 3 frame drops below 30 FPS threshold.', latency: '8.6ms', status: 'OK' as const };
+      case 'node-4':
+        return { message: 'Headless Chromium session matched 1440x900 viewport; reproduced bug deterministically.', latency: '82.0ms', status: 'OK' as const };
+      case 'node-5':
+        return { message: 'Dual-Reality Sandbox: Reality B sustained 0% unmount while Reality A crashed.', latency: '15.2ms', status: 'OK' as const };
+      case 'node-autoshield':
+        return { message: '0-Second Live Immunity deployed: AST traps & Service Worker micro-proxy armed.', latency: '0.8ms', status: 'INTERCEPT' as const };
+      case 'node-6':
+        return { message: scenario === 'external' ? 'Domain Router: External SaaS site detected. Routing to passive audit mode.' : 'Domain Router: Verified repo matched. Routing to Safe PR Studio & IDE dispatch.', latency: '1.1ms', status: 'OK' as const };
+      case 'node-vscode':
+        return { message: 'Dispatched vscode:// protocol link to ProjectsGrid.tsx:42:15. AST patch copied to clipboard.', latency: '0.3ms', status: 'OK' as const };
+      case 'node-7a':
+        return { message: 'Zero-Auto-Push Gate: Before/After diff generated. Waiting for manual developer click.', latency: '2.5ms', status: 'OK' as const };
+      case 'node-7b':
+        return { message: 'Passive Audit Mode: Captured reproduction filmstrip. No unsolicited remote writes performed.', latency: '1.8ms', status: 'OK' as const };
+      case 'node-8':
+        return { message: 'GitHub Webhook received: PR #42 merged into main. Bug CF4A2650 resolved automatically!', latency: '4.2ms', status: 'OK' as const };
+      case 'node-9':
+        return { message: 'Multi-Channel Alert: Broadcasted incident resolution card to Slack & Discord webhooks.', latency: '6.4ms', status: 'OK' as const };
+      default:
+        return { message: 'Node executed successfully.', latency: '1.0ms', status: 'OK' as const };
+    }
+  };
+
+  const executeStep = (stepIdx: number) => {
+    const steps = SCENARIOS[scenario].steps;
+    if (stepIdx < 0 || stepIdx >= steps.length) return;
+    const targetNodeId = steps[stepIdx];
+    setSimulatingNodeId(targetNodeId);
+    setCurrentStepIdx(stepIdx);
+
+    const logInfo = getLogForNode(targetNodeId);
+    const node = NODES.find(n => n.id === targetNodeId);
+    setExecutionLogs(prev => [
+      {
+        id: Math.random().toString(36).substring(2, 9),
+        time: new Date().toLocaleTimeString('en-US', { hour12: false }),
+        nodeId: targetNodeId,
+        nodeName: node?.name || targetNodeId,
+        status: logInfo.status,
+        latency: logInfo.latency,
+        message: logInfo.message
+      },
+      ...prev.slice(0, 25)
+    ]);
+  };
+
+  const handleStepNext = () => {
+    const steps = SCENARIOS[scenario].steps;
+    const nextIdx = currentStepIdx + 1 >= steps.length ? 0 : currentStepIdx + 1;
+    executeStep(nextIdx);
+  };
+
+  const handleStepPrev = () => {
+    const steps = SCENARIOS[scenario].steps;
+    const prevIdx = currentStepIdx - 1 < 0 ? steps.length - 1 : currentStepIdx - 1;
+    executeStep(prevIdx);
+  };
+
   const handleRunSimulation = () => {
-    if (isSimulating) return;
+    if (isSimulating) {
+      setIsSimulating(false);
+      return;
+    }
     setIsSimulating(true);
 
-    const stepOrder = [
-      'node-1',
-      'node-2',
-      'node-3',
-      'node-voice',
-      'node-radar',
-      'node-4',
-      'node-5',
-      'node-autoshield',
-      'node-6',
-      'node-vscode',
-      'node-7a',
-      'node-8',
-      'node-9'
-    ];
-    let idx = 0;
-    setSimulatingNodeId(stepOrder[0]);
+    const steps = SCENARIOS[scenario].steps;
+    let idx = currentStepIdx >= 0 && currentStepIdx < steps.length - 1 ? currentStepIdx + 1 : 0;
+    executeStep(idx);
 
+    const stepInterval = Math.round(900 / simSpeed);
     const interval = setInterval(() => {
       idx += 1;
-      if (idx >= stepOrder.length) {
+      if (idx >= steps.length) {
         clearInterval(interval);
         setIsSimulating(false);
-        setSimulatingNodeId(null);
       } else {
-        setSimulatingNodeId(stepOrder[idx]);
+        executeStep(idx);
       }
-    }, 900);
+    }, stepInterval);
   };
 
   const handleReset = () => {
     setIsSimulating(false);
     setSimulatingNodeId(null);
     setSelectedNode(null);
+    setCurrentStepIdx(-1);
     setZoomLevel(0.92);
   };
 
@@ -595,31 +699,70 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
 
           {/* Right: Simulation & Zoom Controls & Fullscreen */}
           <div className="flex items-center space-x-2">
+            {/* Step Prev Button */}
+            <button
+              onClick={handleStepPrev}
+              disabled={isSimulating}
+              className={`p-2 rounded-xl border transition cursor-pointer ${
+                isDark ? 'bg-white/5 border-white/10 hover:bg-white/10 text-white/80' : 'bg-white border-black/10 hover:bg-black/5 text-black/80'
+              }`}
+              title="Step Previous Node"
+            >
+              <SkipBack className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Execute / Pause Button */}
             <button
               onClick={handleRunSimulation}
-              disabled={isSimulating}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition shadow-lg ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition shadow-lg cursor-pointer ${
                 isSimulating
-                  ? 'bg-emerald-600 text-white animate-pulse'
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white animate-pulse'
                   : 'bg-[#FF6D5A] hover:bg-[#ff5540] text-white'
               }`}
             >
               {isSimulating ? (
                 <>
-                  <Activity className="w-3.5 h-3.5 animate-spin" />
-                  <span>Executing Pipeline...</span>
+                  <Pause className="w-3.5 h-3.5 fill-white" />
+                  <span>Pause Execution</span>
                 </>
               ) : (
                 <>
                   <Play className="w-3.5 h-3.5 fill-white" />
-                  <span>Execute Workflow</span>
+                  <span>Run Scenario</span>
                 </>
               )}
             </button>
 
+            {/* Step Next Button */}
+            <button
+              onClick={handleStepNext}
+              disabled={isSimulating}
+              className={`p-2 rounded-xl border transition cursor-pointer ${
+                isDark ? 'bg-white/5 border-white/10 hover:bg-white/10 text-white/80' : 'bg-white border-black/10 hover:bg-black/5 text-black/80'
+              }`}
+              title="Step Next Node"
+            >
+              <SkipForward className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Speed Toggle (1x / 2x) */}
+            <button
+              onClick={() => setSimSpeed((s) => (s === 1 ? 2 : 1))}
+              className={`px-2.5 py-1.5 rounded-xl border text-[10px] font-bold transition cursor-pointer ${
+                simSpeed === 2
+                  ? 'bg-[#FF6D5A]/20 border-[#FF6D5A]/50 text-[#FF6D5A]'
+                  : isDark
+                  ? 'bg-white/5 border-white/10 text-white/70'
+                  : 'bg-white border-black/10 text-black/70'
+              }`}
+              title="Toggle Execution Speed"
+            >
+              {simSpeed}x Speed
+            </button>
+
             <button
               onClick={handleReset}
-              className={`p-2 rounded-xl border transition ${
+              className={`p-2 rounded-xl border transition cursor-pointer ${
                 isDark
                   ? 'bg-white/5 border-white/10 hover:bg-white/10 text-white/70'
                   : 'bg-white border-black/10 hover:bg-black/5 text-black/70'
@@ -627,6 +770,22 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
               title="Reset View"
             >
               <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Terminal Drawer Toggle Button */}
+            <button
+              onClick={() => setIsConsoleOpen(!isConsoleOpen)}
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl border transition text-xs font-mono font-bold cursor-pointer ${
+                isConsoleOpen
+                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+                  : isDark
+                  ? 'bg-white/5 border-white/10 hover:bg-white/10 text-white/70'
+                  : 'bg-white border-black/10 hover:bg-black/5 text-black/70'
+              }`}
+              title="Toggle Real-Time Terminal Logs"
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>Logs ({executionLogs.length})</span>
             </button>
 
             {/* Zoom Controls */}
@@ -672,6 +831,54 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                 </>
               )}
             </button>
+          </div>
+        </div>
+
+        {/* Secondary Interactive Scenario Ribbon */}
+        <div
+          className={`px-5 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b text-xs font-mono shrink-0 ${
+            isDark ? 'bg-[#12141F] border-white/10' : 'bg-[#F5F4F0] border-black/10'
+          }`}
+        >
+          <div className="flex items-center space-x-2">
+            <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Scenario:</span>
+            {(['internal', 'external', 'perf'] as ScenarioType[]).map((scKey) => {
+              const sc = SCENARIOS[scKey];
+              const isActive = scenario === scKey;
+              return (
+                <button
+                  key={scKey}
+                  onClick={() => {
+                    setScenario(scKey);
+                    setCurrentStepIdx(-1);
+                    setSimulatingNodeId(null);
+                    setIsSimulating(false);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    isActive
+                      ? isDark
+                        ? 'bg-gradient-to-r from-[#FF6D5A] to-purple-600 text-white shadow-md'
+                        : 'bg-[#111] text-white shadow-md'
+                      : isDark
+                      ? 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+                      : 'bg-black/5 text-black/70 hover:bg-black/10'
+                  }`}
+                >
+                  <Zap className={`w-3 h-3 ${isActive ? 'text-amber-300' : 'opacity-50'}`} />
+                  <span>{sc.title}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="text-[11px] font-mono text-white/50">
+            {currentStepIdx >= 0 ? (
+              <span className="text-emerald-400 font-bold">
+                Step {currentStepIdx + 1} of {SCENARIOS[scenario].steps.length} &bull; {NODES.find((n) => n.id === SCENARIOS[scenario].steps[currentStepIdx])?.name}
+              </span>
+            ) : (
+              <span>Ready &bull; Click &quot;Run Scenario&quot; or step through nodes</span>
+            )}
           </div>
         </div>
 
@@ -732,10 +939,15 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                 const isBranchTrue = conn.fromOutputIdx === 0;
                 const isBranchFalse = conn.fromOutputIdx === 1;
 
+                const isConnectedToHovered = hoveredNodeId && (conn.from === hoveredNodeId || conn.to === hoveredNodeId);
+                const hoveredNode = hoveredNodeId ? NODES.find((n) => n.id === hoveredNodeId) : null;
+                const hoveredColor = hoveredNode?.color || '#FF6D5A';
+
                 let strokeColor = isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.22)';
                 if (isBranchTrue) strokeColor = 'rgba(16, 185, 129, 0.7)';
                 if (isBranchFalse) strokeColor = 'rgba(14, 165, 233, 0.7)';
                 if (isSimulating) strokeColor = 'url(#noodleGradDefault)';
+                if (isConnectedToHovered) strokeColor = hoveredColor;
 
                 return (
                   <g key={`${conn.from}-${conn.to}-${idx}`}>
@@ -744,9 +956,9 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                       d={pathStr}
                       fill="none"
                       stroke={strokeColor}
-                      strokeWidth={isSimulating ? 3.5 : 2.5}
+                      strokeWidth={isConnectedToHovered ? 4.5 : isSimulating ? 3.5 : 2.5}
                       strokeLinecap="round"
-                      filter={isSimulating ? 'url(#glowNoodle)' : undefined}
+                      filter={isConnectedToHovered || isSimulating ? 'url(#glowNoodle)' : undefined}
                       className="transition-all duration-300"
                     />
 
@@ -754,12 +966,12 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                     <path
                       d={pathStr}
                       fill="none"
-                      stroke={isDark ? '#FFFFFF' : '#FF6D5A'}
+                      stroke={isConnectedToHovered ? hoveredColor : isDark ? '#FFFFFF' : '#FF6D5A'}
                       strokeWidth={3}
                       strokeDasharray="8, 16"
                       strokeLinecap="round"
                       className="animate-[dash_1.5s_linear_infinite]"
-                      opacity={isSimulating ? 0.95 : 0.45}
+                      opacity={isConnectedToHovered ? 1 : isSimulating ? 0.95 : 0.45}
                     />
 
                     {/* Connection Port Label badge on wire */}
@@ -797,6 +1009,8 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                   key={node.id}
                   id={`n8n-node-${node.id}`}
                   onClick={() => setSelectedNode(node)}
+                  onMouseEnter={() => setHoveredNodeId(node.id)}
+                  onMouseLeave={() => setHoveredNodeId(null)}
                   className={`absolute w-[230px] rounded-2xl border transition-all duration-200 select-none cursor-pointer group shadow-lg ${
                     isSelected
                       ? isDark
@@ -849,6 +1063,27 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
                     <p className={`text-[10px] leading-relaxed line-clamp-2 ${isDark ? 'text-white/60' : 'text-black/60'}`}>
                       {node.description}
                     </p>
+
+                    {/* Interactive Quick Inspect / Test Action */}
+                    <div className="pt-2 flex items-center justify-between border-t border-white/5 text-[9px] font-mono">
+                      <span className="text-white/40 group-hover:text-white/70 transition">
+                        {isRunning ? (
+                          <span className="text-emerald-400 font-bold">Executing...</span>
+                        ) : (
+                          <span>Click to inspect</span>
+                        )}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedNode(node);
+                        }}
+                        className="text-[#FF6D5A] hover:underline flex items-center gap-0.5 font-bold cursor-pointer"
+                      >
+                        <span>JSON Payload</span>
+                        <ChevronRight className="w-2.5 h-2.5" />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Input Port (Left Handle Circle) */}
@@ -898,6 +1133,53 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
           </div>
         </div>
 
+        {/* Real-time Terminal Log Console Drawer */}
+        {isConsoleOpen && (
+          <div
+            className={`border-t font-mono text-xs transition-all duration-300 max-h-52 overflow-hidden flex flex-col ${
+              isDark ? 'bg-[#0E101A] border-white/10 text-white' : 'bg-[#181A24] border-black/10 text-white'
+            }`}
+          >
+            <div className="px-4 py-2 bg-[#141624] border-b border-white/10 flex items-center justify-between text-[11px]">
+              <div className="flex items-center space-x-2">
+                <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-bold text-white/90">Autonomous Execution Stream</span>
+                <span className="text-[10px] text-white/50">({executionLogs.length} events logged)</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => setExecutionLogs([])}
+                  className="text-[10px] text-white/50 hover:text-white transition cursor-pointer"
+                >
+                  Clear Logs
+                </button>
+                <button
+                  onClick={() => setIsConsoleOpen(false)}
+                  className="text-white/50 hover:text-white transition cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+            <div className="p-3 overflow-y-auto space-y-1.5 flex-1 max-h-40">
+              {executionLogs.map((log) => (
+                <div key={log.id} className="flex items-start space-x-2 text-[11px] leading-relaxed font-mono">
+                  <span className="text-white/40 shrink-0">[{log.time}]</span>
+                  <span
+                    className={`font-bold shrink-0 ${
+                      log.status === 'INTERCEPT' ? 'text-amber-400' : 'text-emerald-400'
+                    }`}
+                  >
+                    [{log.nodeName}]
+                  </span>
+                  <span className="text-white/80">{log.message}</span>
+                  <span className="text-cyan-400/80 shrink-0 ml-auto text-[10px]">{log.latency}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Canvas Bottom Status Bar */}
         <div
           className={`px-6 py-2.5 flex items-center justify-between border-t text-[11px] font-mono ${
@@ -909,7 +1191,16 @@ export const N8nWorkflowPipeline: React.FC<{ isDark?: boolean; onOpenDashboard?:
             <span>&bull; {CONNECTIONS.length} Execution Noodles</span>
             <span className="text-emerald-400 font-bold">Execution Engine: Deterministic</span>
           </div>
-          <span className="opacity-70">Click any node to inspect payload &amp; parameters</span>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setIsConsoleOpen(!isConsoleOpen)}
+              className="text-cyan-400 hover:underline flex items-center gap-1 font-bold cursor-pointer"
+            >
+              <span>{isConsoleOpen ? 'Hide Terminal Stream' : 'Show Terminal Stream'}</span>
+              {isConsoleOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronUp className="w-3 h-3" />}
+            </button>
+            <span className="opacity-70">&bull; Click any node to inspect payload &amp; parameters</span>
+          </div>
         </div>
       </div>
 

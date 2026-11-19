@@ -77,7 +77,12 @@ Simulates and verifies component resilience side-by-side in the live browser wit
   <img src="docs/assets/website-pipeline.gif" alt="ReproLens n8n Workflow Pipeline" width="100%" />
 </p>
 
-The interactive execution graph visualizes the 11-stage autonomous lifecycle:
+The interactive execution graph visualizes the 11-stage autonomous lifecycle with live scenario switching, step-by-step playback, cable hover highlights, and real-time execution logs:
+- **Interactive Scenario Switcher**: Toggle between `E-Commerce Crash (PR Auto-Merge)`, `3rd-Party SaaS Site (Passive Audit)`, and `Memory Stall & Standup Audio RCA`.
+- **Step-by-Step Playback Controller**: Step forward, step backward, or auto-run with 1x / 2x velocity controls.
+- **Real-Time Terminal Stream**: Expandable live execution console streaming timestamped payload transfers, AST traps, and millisecond latencies.
+- **Node Inspector Modal**: Click any node to view and copy input/output JSON schemas and runtime configurations.
+
 1. **Flight Recorder**: 45-second circular ring buffer recording DOM clicks, network requests, and runtime exceptions.
 2. **On-Device Scrubber**: Pre-flight Luhn mathematical checks, RFC email regex, and bearer token filters purge secrets before transmission.
 3. **FastAPI Core**: Ingestion engine computing fingerprint hashes and dispatching replay workers.
