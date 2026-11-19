@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="matBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040812"/>
+      <stop offset="50%" stop-color="#081226"/>
+      <stop offset="100%" stop-color="#03060E"/>
+    </linearGradient>
+
+    <linearGradient id="reproColGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" stop-opacity="0.25"/>
+      <stop offset="50%" stop-color="#0369A1" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0.25"/>
+    </linearGradient>
+
+    <linearGradient id="reproBorderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+
+    <linearGradient id="scanlineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#38BDF8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="softGlowM" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <pattern id="matrixGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#0284C7" stroke-width="0.5" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes scanDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(440px); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { stroke-opacity: 0.4; }
+      50% { stroke-opacity: 0.95; }
+    }
+    @keyframes beaconM {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .scanner-beam {
+      animation: scanDown 4s ease-in-out infinite;
+    }
+    .repro-column {
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    .beacon-dot {
+      animation: beaconM 1.6s ease-in-out infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Frame Background -->
+  <rect width="1200" height="520" rx="14" fill="url(#matBg)"/>
+  <rect width="1200" height="520" rx="14" fill="url(#matrixGrid)"/>
+  <rect x="1" y="1" width="1198" height="518" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.35"/>
+
+  <!-- Top Header Bar -->
+  <g transform="translate(36, 32)">
+    <circle cx="6" cy="6" r="4.5" fill="#38BDF8" class="beacon-dot"/>
+    <text x="22" y="10" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.5" class="code-font">
+      CAPABILITY MATRIX: DETERMINISTIC REPRODUCTION VS PASSIVE APM LOGGERS
+    </text>
+    <text x="1128" y="10" fill="#64748B" font-size="11" font-weight="600" text-anchor="end" class="code-font">
+      BENCHMARK SPEC V2.4
+    </text>
+  </g>
+
+  <!-- TABLE CONTAINER (36, 60) -->
+  <g transform="translate(36, 60)">
+    <!-- Base Table Background -->
+    <rect width="1128" height="430" rx="10" fill="#060E1E" stroke="#0E223D" stroke-width="1"/>
+
+    <!-- REPROLENS HIGHLIGHTED COLUMN (848, 0, width: 280, height: 430) -->
+    <rect x="848" y="0" width="280" height="430" rx="9" fill="url(#reproColGrad)"/>
+    <rect x="848" y="0" width="280" height="430" rx="9" fill="none" stroke="url(#reproBorderGrad)" stroke-width="1.6" class="repro-column" filter="url(#softGlowM)"/>
+
+    <!-- Animated Scanline across ReproLens column -->
+    <g clip-path="url(#reproClip)">
+      <clipPath id="reproClip">
+        <rect x="848" y="0" width="280" height="430" rx="9"/>
+      </clipPath>
+      <rect x="848" y="-40" width="280" height="40" fill="url(#scanlineGrad)" class="scanner-beam"/>
+    </g>
+
+    <!-- TABLE HEADER ROW (Height: 46px) -->
+    <rect x="0" y="0" width="1128" height="46" rx="9" fill="#0A1830"/>
+    <line x1="0" y1="46" x2="1128" y2="46" stroke="#0E2A4A" stroke-width="1"/>
+
+    <!-- Header Column Titles -->
+    <text x="24" y="28" fill="#94A3B8" font-size="11" font-weight="700" letter-spacing="1" class="code-font">CAPABILITY SPECIFICATION</text>
+    <text x="430" y="28" fill="#64748B" font-size="11" font-weight="700" letter-spacing="1" text-anchor="middle" class="code-font">SENTRY</text>
+    <text x="590" y="28" fill="#64748B" font-size="11" font-weight="700" letter-spacing="1" text-anchor="middle" class="code-font">DATADOG</text>
+    <text x="740" y="28" fill="#64748B" font-size="11" font-weight="700" letter-spacing="1" text-anchor="middle" class="code-font">LOGROCKET</text>
+    
+    <!-- ReproLens Header Highlight -->
+    <text x="988" y="28" fill="#38BDF8" font-size="12" font-weight="800" letter-spacing="1.5" text-anchor="middle" class="code-font">REPROLENS</text>
+    <circle cx="1060" cy="24" r="3.5" fill="#10B981" class="beacon-dot"/>
+
+    <!-- ROW 1 (y: 46) Deterministic Playwright Replay -->
+    <g transform="translate(0, 46)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">Deterministic Browser Replay</text>
+      <text x="430" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">DOM Diff Only</text>
+      <text x="590" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="740" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Video Stream</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">Playwright Chromium (100%)</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 2 (y: 98) 0-Sec Live Runtime Immunity -->
+    <g transform="translate(0, 98)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">0-Second Live Runtime Immunity</text>
+      <text x="430" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None (Post-Mortem)</text>
+      <text x="590" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="740" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">Auto-Shield AST Traps (0.8ms)</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 3 (y: 150) On-Device Zero-PII Card Scrubber -->
+    <g transform="translate(0, 150)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">On-Device Zero-PII Scrubber</text>
+      <text x="430" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Server-Side RegEx</text>
+      <text x="590" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Server Masking</text>
+      <text x="740" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Partial Client Scrubber</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">Pre-Flight Luhn Algorithm</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 4 (y: 202) 1-Click IDE Protocol Jump -->
+    <g transform="translate(0, 202)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">1-Click Local IDE Protocol Jump</text>
+      <text x="430" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Web URL Link</text>
+      <text x="590" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Web URL Link</text>
+      <text x="740" y="32" fill="#94A3B8" font-size="11" text-anchor="middle" class="code-font">Web URL Link</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">vscode:// &amp; cursor:// Line/Col</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 5 (y: 254) Dual-Reality Split Sandbox -->
+    <g transform="translate(0, 254)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">Dual-Reality Split Sandbox</text>
+      <text x="430" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="590" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="740" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">Reality A vs B (0% Unmount)</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 6 (y: 306) Voice Audio RCA Briefing -->
+    <g transform="translate(0, 306)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">Voice Audio RCA Briefing</text>
+      <text x="430" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="590" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="740" y="32" fill="#EF4444" font-size="11" font-weight="700" text-anchor="middle" class="code-font">None</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">30s Calibrated Standup Audio</text>
+      <line x1="0" y1="52" x2="1128" y2="52" stroke="#0C2038" stroke-width="0.8"/>
+    </g>
+
+    <!-- ROW 7 (y: 358) Safe Manual PR Policy -->
+    <g transform="translate(0, 358)">
+      <text x="24" y="32" fill="#E2E8F0" font-size="12" font-weight="600" class="tech-font">Safe Manual PR Gate (Zero-Push)</text>
+      <text x="430" y="32" fill="#64748B" font-size="11" text-anchor="middle" class="code-font">N/A</text>
+      <text x="590" y="32" fill="#64748B" font-size="11" text-anchor="middle" class="code-font">N/A</text>
+      <text x="740" y="32" fill="#64748B" font-size="11" text-anchor="middle" class="code-font">N/A</text>
+      <text x="988" y="32" fill="#34D399" font-size="11" font-weight="800" text-anchor="middle" class="code-font">Strict Human Authorization</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="stackBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040812"/>
+      <stop offset="50%" stop-color="#071020"/>
+      <stop offset="100%" stop-color="#03060C"/>
+    </linearGradient>
+
+    <filter id="softGlowS" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulseCable {
+      from { stroke-dashoffset: 80; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes cardGlow {
+      0%, 100% { stroke-opacity: 0.3; }
+      50% { stroke-opacity: 0.8; }
+    }
+    @keyframes beaconS {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .cable-flow {
+      stroke-dasharray: 6 10;
+      animation: pulseCable 2.5s linear infinite;
+    }
+    .stack-card {
+      animation: cardGlow 3.5s ease-in-out infinite;
+    }
+    .beacon-light {
+      animation: beaconS 1.6s ease-in-out infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Frame Background -->
+  <rect width="1200" height="360" rx="14" fill="url(#stackBg)"/>
+  <rect x="1" y="1" width="1198" height="358" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.35"/>
+
+  <!-- Top Title Bar -->
+  <g transform="translate(36, 32)">
+    <circle cx="6" cy="6" r="4.5" fill="#38BDF8" class="beacon-light"/>
+    <text x="22" y="10" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.5" class="code-font">
+      TECHNOLOGY ARCHITECTURE: FULL-STACK AUTONOMOUS SYSTEM SPEC
+    </text>
+    <text x="1128" y="10" fill="#64748B" font-size="11" font-weight="600" text-anchor="end" class="code-font">
+      PRODUCTION BUILD // ESM &amp; PYTHON 3.11
+    </text>
+  </g>
+
+  <!-- CONNECTING BUS CABLE (y: 195) -->
+  <g fill="none">
+    <line x1="170" y1="195" x2="1030" y2="195" stroke="#0C2B4C" stroke-width="3" stroke-opacity="0.5"/>
+    <line x1="170" y1="195" x2="1030" y2="195" stroke="#38BDF8" stroke-width="2" class="cable-flow" filter="url(#softGlowS)"/>
+  </g>
+
+  <!-- 4 TECHNOLOGY PILLARS -->
+
+  <!-- PILLAR 1: CLIENT INSTRUMENTATION -->
+  <g transform="translate(36, 68)">
+    <rect width="260" height="254" rx="10" fill="#0A1526" stroke="#0284C7" stroke-width="1.2" class="stack-card"/>
+    <rect x="0" y="0" width="260" height="32" rx="9" fill="#07203B"/>
+    <circle cx="16" cy="16" r="3.5" fill="#38BDF8" class="beacon-light"/>
+    <text x="28" y="20" fill="#7DD3FC" font-size="10" font-weight="700" letter-spacing="1" class="code-font">CLIENT INSTRUMENTATION</text>
+    
+    <g transform="translate(16, 48)">
+      <text x="0" y="16" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Chrome Extension MV3</text>
+      <text x="0" y="34" fill="#94A3B8" font-size="10" class="code-font">Service Worker Background</text>
+      <line x1="0" y1="46" x2="228" y2="46" stroke="#0C2542" stroke-width="0.8"/>
+      
+      <text x="0" y="66" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">MAIN-World Interceptors</text>
+      <text x="0" y="84" fill="#94A3B8" font-size="10" class="code-font">window.fetch / XHR / Errors</text>
+      <line x1="0" y1="96" x2="228" y2="96" stroke="#0C2542" stroke-width="0.8"/>
+
+      <text x="0" y="116" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">On-Device Luhn Scrubber</text>
+      <text x="0" y="134" fill="#34D399" font-size="10" font-weight="600" class="code-font">Pre-flight Zero-PII Strip</text>
+      <line x1="0" y1="146" x2="228" y2="146" stroke="#0C2542" stroke-width="0.8"/>
+
+      <text x="0" y="166" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Chaos Simulator Engine</text>
+      <text x="0" y="184" fill="#F59E0B" font-size="10" class="code-font">Slow 3G &amp; HTTP 500 Injection</text>
+    </g>
+  </g>
+
+  <!-- PILLAR 2: AUTONOMOUS FASTAPI CORE -->
+  <g transform="translate(322, 68)">
+    <rect width="260" height="254" rx="10" fill="#0A1526" stroke="#10B981" stroke-width="1.2" class="stack-card"/>
+    <rect x="0" y="0" width="260" height="32" rx="9" fill="#063E2D"/>
+    <circle cx="16" cy="16" r="3.5" fill="#10B981" class="beacon-light"/>
+    <text x="28" y="20" fill="#6EE7B7" font-size="10" font-weight="700" letter-spacing="1" class="code-font">AUTONOMOUS FASTAPI CORE</text>
+    
+    <g transform="translate(16, 48)">
+      <text x="0" y="16" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">FastAPI &amp; Uvicorn</text>
+      <text x="0" y="34" fill="#94A3B8" font-size="10" class="code-font">Python 3.11+ / Async ASGI</text>
+      <line x1="0" y1="46" x2="228" y2="46" stroke="#064E3B" stroke-width="0.8"/>
+
+      <text x="0" y="66" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">SQLAlchemy ORM</text>
+      <text x="0" y="84" fill="#94A3B8" font-size="10" class="code-font">SQLite / PostgreSQL Support</text>
+      <line x1="0" y1="96" x2="228" y2="96" stroke="#064E3B" stroke-width="0.8"/>
+
+      <text x="0" y="116" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">0-Second Auto-Shield</text>
+      <text x="0" y="134" fill="#34D399" font-size="10" font-weight="600" class="code-font">AST Exception Traps &amp; SW</text>
+      <line x1="0" y1="146" x2="228" y2="146" stroke="#064E3B" stroke-width="0.8"/>
+
+      <text x="0" y="166" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Alerts &amp; Webhooks Hub</text>
+      <text x="0" y="184" fill="#A78BFA" font-size="10" class="code-font">Slack, Discord &amp; GitHub Sync</text>
+    </g>
+  </g>
+
+  <!-- PILLAR 3: DETERMINISTIC PLAYWRIGHT -->
+  <g transform="translate(608, 68)">
+    <rect width="260" height="254" rx="10" fill="#0A1526" stroke="#F59E0B" stroke-width="1.2" class="stack-card"/>
+    <rect x="0" y="0" width="260" height="32" rx="9" fill="#451A03"/>
+    <circle cx="16" cy="16" r="3.5" fill="#F59E0B" class="beacon-light"/>
+    <text x="28" y="20" fill="#FCD34D" font-size="10" font-weight="700" letter-spacing="1" class="code-font">DETERMINISTIC PLAYWRIGHT</text>
+    
+    <g transform="translate(16, 48)">
+      <text x="0" y="16" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Headless Chromium</text>
+      <text x="0" y="34" fill="#94A3B8" font-size="10" class="code-font">100% Fidelity Automation</text>
+      <line x1="0" y1="46" x2="228" y2="46" stroke="#78350F" stroke-width="0.8"/>
+
+      <text x="0" y="66" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Dynamic Viewport Sync</text>
+      <text x="0" y="84" fill="#94A3B8" font-size="10" class="code-font">Desktop 1440x900 / Mobile 390</text>
+      <line x1="0" y1="96" x2="228" y2="96" stroke="#78350F" stroke-width="0.8"/>
+
+      <text x="0" y="116" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Synthetic Network Mocking</text>
+      <text x="0" y="134" fill="#34D399" font-size="10" font-weight="600" class="code-font">Route Intercepts &amp; 500 Replay</text>
+      <line x1="0" y1="146" x2="228" y2="146" stroke="#78350F" stroke-width="0.8"/>
+
+      <text x="0" y="166" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Filmstrip Verification</text>
+      <text x="0" y="184" fill="#38BDF8" font-size="10" class="code-font">Step Screenshots &amp; Traces</text>
+    </g>
+  </g>
+
+  <!-- PILLAR 4: MISSION CONTROL DASHBOARD -->
+  <g transform="translate(894, 68)">
+    <rect width="270" height="254" rx="10" fill="#0A1526" stroke="#818CF8" stroke-width="1.2" class="stack-card"/>
+    <rect x="0" y="0" width="270" height="32" rx="9" fill="#1E1B4B"/>
+    <circle cx="16" cy="16" r="3.5" fill="#818CF8" class="beacon-light"/>
+    <text x="28" y="20" fill="#A5B4FC" font-size="10" font-weight="700" letter-spacing="1" class="code-font">MISSION CONTROL DASHBOARD</text>
+    
+    <g transform="translate(16, 48)">
+      <text x="0" y="16" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">React 18 &amp; TypeScript</text>
+      <text x="0" y="34" fill="#94A3B8" font-size="10" class="code-font">Vite HMR &amp; Tailwind CSS</text>
+      <line x1="0" y1="46" x2="238" y2="46" stroke="#312E81" stroke-width="0.8"/>
+
+      <text x="0" y="66" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Dual-Reality Split Sandbox</text>
+      <text x="0" y="84" fill="#94A3B8" font-size="10" class="code-font">Live Reality A vs B Visuals</text>
+      <line x1="0" y1="96" x2="238" y2="96" stroke="#312E81" stroke-width="0.8"/>
+
+      <text x="0" y="116" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">AI Voice RCA Synthesizer</text>
+      <text x="0" y="134" fill="#34D399" font-size="10" font-weight="600" class="code-font">Web Speech Standup Audio</text>
+      <line x1="0" y1="146" x2="238" y2="146" stroke="#312E81" stroke-width="0.8"/>
+
+      <text x="0" y="166" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">1-Click Local IDE Jump</text>
+      <text x="0" y="184" fill="#38BDF8" font-size="10" class="code-font">vscode:// &amp; cursor:// Protocols</text>
+    </g>
+  </g>
+</svg>

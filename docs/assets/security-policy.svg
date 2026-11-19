@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="secBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040812"/>
+      <stop offset="50%" stop-color="#061022"/>
+      <stop offset="100%" stop-color="#03060C"/>
+    </linearGradient>
+
+    <linearGradient id="secBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#10B981" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="softGlowSec" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes scanAcross {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(500px); }
+    }
+    @keyframes pulseShield {
+      0%, 100% { stroke-opacity: 0.35; }
+      50% { stroke-opacity: 0.85; }
+    }
+    @keyframes beaconSec {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .scanner-sweep {
+      animation: scanAcross 3.5s ease-in-out infinite;
+    }
+    .shield-card {
+      animation: pulseShield 3s ease-in-out infinite;
+    }
+    .beacon-light {
+      animation: beaconSec 1.5s ease-in-out infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Frame Background -->
+  <rect width="1200" height="360" rx="14" fill="url(#secBg)"/>
+  <rect x="1" y="1" width="1198" height="358" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.35"/>
+
+  <!-- Top Title Bar -->
+  <g transform="translate(36, 32)">
+    <circle cx="6" cy="6" r="4.5" fill="#10B981" class="beacon-light"/>
+    <text x="22" y="10" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.5" class="code-font">
+      SECURITY &amp; PRIVACY ASSURANCE: CLIENT-SIDE ZERO-PII &amp; ZERO-AUTO-PUSH GATE
+    </text>
+    <text x="1128" y="10" fill="#34D399" font-size="11" font-weight="700" text-anchor="end" class="code-font">
+      100% AIR-GAPPED READY
+    </text>
+  </g>
+
+  <!-- LEFT: ON-DEVICE ZERO-PII LUHN SCRUBBER -->
+  <g transform="translate(36, 60)">
+    <rect width="540" height="268" rx="10" fill="#081822" stroke="#10B981" stroke-width="1.4" class="shield-card"/>
+    
+    <!-- Title Bar -->
+    <rect x="0" y="0" width="540" height="36" rx="9" fill="#063E2D"/>
+    <circle cx="20" cy="18" r="4.5" fill="#10B981" class="beacon-light"/>
+    <text x="34" y="22" fill="#6EE7B7" font-size="11" font-weight="700" letter-spacing="1" class="code-font">01 // PRE-FLIGHT ON-DEVICE LUHN SCRUBBER</text>
+    <rect x="420" y="8" width="100" height="20" rx="4" fill="#065F46"/>
+    <text x="470" y="22" fill="#A7F3D0" font-size="9" font-weight="800" text-anchor="middle" class="code-font">CLIENT-SIDE</text>
+
+    <!-- Interactive Scrubber Terminal -->
+    <g transform="translate(18, 52)">
+      <rect width="504" height="136" rx="6" fill="#020E0A" stroke="#064E3B" stroke-width="1"/>
+      
+      <!-- Scan Beam -->
+      <g clip-path="url(#scrubClip)">
+        <clipPath id="scrubClip">
+          <rect width="504" height="136" rx="6"/>
+        </clipPath>
+        <rect x="-60" y="0" width="80" height="136" fill="url(#secBeam)" class="scanner-sweep"/>
+      </g>
+
+      <text x="14" y="24" fill="#6EE7B7" font-size="10.5" font-weight="700" class="code-font">[SCRUBBED IN BROWSER MEMORY BEFORE DISPATCH]</text>
+      
+      <!-- Field 1: Credit Card -->
+      <text x="14" y="48" fill="#94A3B8" font-size="10.5" class="code-font">Credit Card:</text>
+      <text x="110" y="48" fill="#F87171" font-size="10.5" text-decoration="line-through" class="code-font">4532 8921 4402 8841</text>
+      <text x="290" y="48" fill="#34D399" font-size="10.5" font-weight="700" class="code-font">&gt; 4532 **** **** 8841 [LUHN OK]</text>
+
+      <!-- Field 2: Bearer Header -->
+      <text x="14" y="74" fill="#94A3B8" font-size="10.5" class="code-font">Auth Token:</text>
+      <text x="110" y="74" fill="#F87171" font-size="10.5" text-decoration="line-through" class="code-font">Bearer eyJhbGci...</text>
+      <text x="290" y="74" fill="#34D399" font-size="10.5" font-weight="700" class="code-font">&gt; [STRIPPED ON CLIENT]</text>
+
+      <!-- Field 3: Password / Secret -->
+      <text x="14" y="100" fill="#94A3B8" font-size="10.5" class="code-font">Password:</text>
+      <text x="110" y="100" fill="#F87171" font-size="10.5" text-decoration="line-through" class="code-font">"corpVault$991"</text>
+      <text x="290" y="100" fill="#34D399" font-size="10.5" font-weight="700" class="code-font">&gt; [FILTERED BY REGEX]</text>
+
+      <text x="14" y="124" fill="#10B981" font-size="10" font-weight="700" class="code-font">Result: Raw PII NEVER touches backend disk or network wire.</text>
+    </g>
+
+    <!-- Status Strip -->
+    <g transform="translate(18, 202)">
+      <rect width="504" height="48" rx="6" fill="#04261C" stroke="#065F46" stroke-width="1"/>
+      <text x="14" y="20" fill="#A7F3D0" font-size="10" font-weight="600" class="tech-font">COMPLIANCE ASSURANCE</text>
+      <text x="14" y="36" fill="#34D399" font-size="11" font-weight="800" class="code-font">PCI-DSS COMPLIANT | GDPR ARTICLE 25 PRIVACY BY DESIGN</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: SAFE MANUAL GITHUB PR GATE -->
+  <g transform="translate(624, 60)">
+    <rect width="540" height="268" rx="10" fill="#0C1428" stroke="#38BDF8" stroke-width="1.4" class="shield-card"/>
+    
+    <!-- Title Bar -->
+    <rect x="0" y="0" width="540" height="36" rx="9" fill="#0C2548"/>
+    <circle cx="20" cy="18" r="4.5" fill="#38BDF8" class="beacon-light"/>
+    <text x="34" y="22" fill="#7DD3FC" font-size="11" font-weight="700" letter-spacing="1" class="code-font">02 // ZERO-AUTO-PUSH HUMAN GOVERNANCE</text>
+    <rect x="420" y="8" width="100" height="20" rx="4" fill="#0369A1"/>
+    <text x="470" y="22" fill="#BAE6FD" font-size="9" font-weight="800" text-anchor="middle" class="code-font">HUMAN GATE</text>
+
+    <!-- Terminal -->
+    <g transform="translate(18, 52)">
+      <rect width="504" height="136" rx="6" fill="#060C18" stroke="#0C2548" stroke-width="1"/>
+      
+      <text x="14" y="24" fill="#38BDF8" font-size="10.5" font-weight="700" class="code-font">[STRICT ZERO-AUTO-PUSH PROTOCOL ENFORCED]</text>
+      
+      <text x="14" y="48" fill="#94A3B8" font-size="10.5" class="code-font">Unsolicited Git Commits:</text>
+      <text x="210" y="48" fill="#EF4444" font-size="10.5" font-weight="800" class="code-font">FORBIDDEN (0 Allowed)</text>
+
+      <text x="14" y="74" fill="#94A3B8" font-size="10.5" class="code-font">Automatic Production Merge:</text>
+      <text x="210" y="74" fill="#EF4444" font-size="10.5" font-weight="800" class="code-font">BLOCKED BY HARNESS</text>
+
+      <text x="14" y="100" fill="#94A3B8" font-size="10.5" class="code-font">Diff Review Requirement:</text>
+      <text x="210" y="100" fill="#10B981" font-size="10.5" font-weight="800" class="code-font">MANDATORY DEVELOPER SIGN-OFF</text>
+
+      <text x="14" y="124" fill="#38BDF8" font-size="10" font-weight="700" class="code-font">Result: Codebase integrity protected; human developer retains 100% control.</text>
+    </g>
+
+    <!-- Status Strip -->
+    <g transform="translate(18, 202)">
+      <rect width="504" height="48" rx="6" fill="#071933" stroke="#0284C7" stroke-width="1"/>
+      <text x="14" y="20" fill="#7DD3FC" font-size="10" font-weight="600" class="tech-font">GOVERNANCE POLICY</text>
+      <text x="14" y="36" fill="#38BDF8" font-size="11" font-weight="800" class="code-font">ZERO UNSOLICITED WRITES | EXPLICIT 1-CLICK DISPATCH ONLY</text>
+    </g>
+  </g>
+</svg>

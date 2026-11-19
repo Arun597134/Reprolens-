@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="termBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050B14"/>
+      <stop offset="50%" stop-color="#08101E"/>
+      <stop offset="100%" stop-color="#03060C"/>
+    </linearGradient>
+
+    <filter id="cyanGlowT" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes lineFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes beaconT {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .cursor-t {
+      animation: blinkCursor 0.9s infinite;
+    }
+    .beacon-light {
+      animation: beaconT 1.5s ease-in-out infinite;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Window Frame -->
+  <rect width="1200" height="440" rx="14" fill="url(#termBg)"/>
+  <rect x="1" y="1" width="1198" height="438" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.35"/>
+
+  <!-- Title Bar -->
+  <rect x="0" y="0" width="1200" height="42" rx="13" fill="#0C1628"/>
+  <line x1="0" y1="42" x2="1200" y2="42" stroke="#0284C7" stroke-width="1" stroke-opacity="0.25"/>
+
+  <!-- Window Controls (Red, Yellow, Green) -->
+  <circle cx="28" cy="21" r="6" fill="#EF4444" fill-opacity="0.8"/>
+  <circle cx="48" cy="21" r="6" fill="#F59E0B" fill-opacity="0.8"/>
+  <circle cx="68" cy="21" r="6" fill="#10B981" fill-opacity="0.8"/>
+
+  <!-- Title Center -->
+  <text x="600" y="26" fill="#94A3B8" font-size="12" font-weight="600" text-anchor="middle" class="code-font">
+    reprolens-orchestrator &mdash; zsh (120x34)
+  </text>
+
+  <!-- Live Status Badge on Right -->
+  <rect x="1050" y="11" width="120" height="20" rx="4" fill="#042F2E"/>
+  <circle cx="1064" cy="21" r="3.5" fill="#10B981" class="beacon-light"/>
+  <text x="1076" y="25" fill="#34D399" font-size="9" font-weight="800" class="code-font">STACK ACTIVE</text>
+
+  <!-- TERMINAL CONTENT AREA -->
+  <g transform="translate(32, 64)">
+    <!-- Command 1: Clone & Navigate -->
+    <text x="0" y="18" fill="#38BDF8" font-size="13" font-weight="700" class="code-font">$</text>
+    <text x="18" y="18" fill="#FFFFFF" font-size="13" font-weight="600" class="code-font">git clone https://github.com/Arun597134/Reprolens-.git &amp;&amp; cd Reprolens-</text>
+
+    <!-- Command 2: Single-Command Launch -->
+    <text x="0" y="46" fill="#38BDF8" font-size="13" font-weight="700" class="code-font">$</text>
+    <text x="18" y="46" fill="#FDE047" font-size="13" font-weight="700" class="code-font">python start.py</text>
+
+    <!-- Divider Line -->
+    <line x1="0" y1="62" x2="1136" y2="62" stroke="#0C2542" stroke-width="0.8"/>
+
+    <!-- Orchestrator Boot Sequence Output -->
+    <g transform="translate(0, 80)">
+      <text x="0" y="14" fill="#64748B" font-size="11" class="code-font">[00:00:00.040] [INIT] Initializing ReproLens Autonomous Engine v2.4 (Python 3.11 / x86_64)</text>
+      <text x="0" y="34" fill="#64748B" font-size="11" class="code-font">[00:00:00.120] [DB]   SQLAlchemy schema synced: bugs, sessions, reproductions, auto_shields verified.</text>
+      
+      <!-- Service 1: FastAPI Core -->
+      <rect x="0" y="46" width="60" height="18" rx="3" fill="#064E3B"/>
+      <text x="30" y="59" fill="#6EE7B7" font-size="9" font-weight="800" text-anchor="middle" class="code-font">READY</text>
+      <text x="70" y="59" fill="#E2E8F0" font-size="11" class="code-font">FastAPI Ingestion &amp; Diagnostics API</text>
+      <text x="440" y="59" fill="#38BDF8" font-size="11" font-weight="700" class="code-font">&gt; http://localhost:8000/docs</text>
+      <text x="820" y="59" fill="#10B981" font-size="10" class="code-font">(Uvicorn ASGI 4 workers)</text>
+
+      <!-- Service 2: Developer Dashboard -->
+      <rect x="0" y="74" width="60" height="18" rx="3" fill="#064E3B"/>
+      <text x="30" y="87" fill="#6EE7B7" font-size="9" font-weight="800" text-anchor="middle" class="code-font">READY</text>
+      <text x="70" y="87" fill="#E2E8F0" font-size="11" class="code-font">Mission Control React Dashboard</text>
+      <text x="440" y="87" fill="#38BDF8" font-size="11" font-weight="700" class="code-font">&gt; http://localhost:5173</text>
+      <text x="820" y="87" fill="#10B981" font-size="10" class="code-font">(Vite HMR active)</text>
+
+      <!-- Service 3: ShopNow E-Commerce Chaos App -->
+      <rect x="0" y="102" width="60" height="18" rx="3" fill="#064E3B"/>
+      <text x="30" y="115" fill="#6EE7B7" font-size="9" font-weight="800" text-anchor="middle" class="code-font">READY</text>
+      <text x="70" y="115" fill="#E2E8F0" font-size="11" class="code-font">ShopNow E-Commerce Chaos Sandbox</text>
+      <text x="440" y="115" fill="#38BDF8" font-size="11" font-weight="700" class="code-font">&gt; http://localhost:3000</text>
+      <text x="820" y="115" fill="#10B981" font-size="10" class="code-font">(Target instrumentation site)</text>
+
+      <!-- Service 4: Client Web SDK -->
+      <rect x="0" y="130" width="60" height="18" rx="3" fill="#064E3B"/>
+      <text x="30" y="143" fill="#6EE7B7" font-size="9" font-weight="800" text-anchor="middle" class="code-font">READY</text>
+      <text x="70" y="143" fill="#E2E8F0" font-size="11" class="code-font">Client Runtime SDK Ingestion Library</text>
+      <text x="440" y="143" fill="#38BDF8" font-size="11" font-weight="700" class="code-font">&gt; http://localhost:8000/sdk/reprolens.js</text>
+      <text x="820" y="143" fill="#10B981" font-size="10" class="code-font">(Zero-PII Luhn Engine)</text>
+
+      <!-- Autonomous Subsystems Status -->
+      <line x1="0" y1="162" x2="1136" y2="162" stroke="#0C2542" stroke-width="0.8"/>
+      <text x="0" y="182" fill="#A78BFA" font-size="11" font-weight="700" class="code-font">[PLAYWRIGHT] Headless Chromium Workers Pool: Standby (Viewport 1440x900 &amp; Mobile 390x844)</text>
+      <text x="0" y="202" fill="#34D399" font-size="11" font-weight="700" class="code-font">[IMMUNITY]   0-Second Auto-Shield Runtime Traps: ARMED (0.8ms AST Interception Ready)</text>
+
+      <!-- Interactive Prompt Ready with Blinking Cursor -->
+      <g transform="translate(0, 230)">
+        <text x="0" y="14" fill="#38BDF8" font-size="13" font-weight="700" class="code-font">reprolens@local</text>
+        <text x="130" y="14" fill="#94A3B8" font-size="13" class="code-font">in</text>
+        <text x="150" y="14" fill="#34D399" font-size="13" font-weight="700" class="code-font">~/Raprolens</text>
+        <text x="250" y="14" fill="#FFFFFF" font-size="13" class="code-font">on</text>
+        <text x="274" y="14" fill="#F59E0B" font-size="13" font-weight="700" class="code-font">git:main</text>
+        <text x="345" y="14" fill="#38BDF8" font-size="13" font-weight="700" class="code-font">&gt;</text>
+        <rect x="360" y="2" width="8" height="15" fill="#38BDF8" class="cursor-t"/>
+      </g>
+    </g>
+  </g>
+</svg>
