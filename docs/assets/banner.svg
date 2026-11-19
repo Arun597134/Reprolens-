@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040812"/>
+      <stop offset="50%" stop-color="#071126"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <linearGradient id="emeraldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+
+    <!-- Radar Sweep Gradient -->
+    <radialGradient id="radarSweep" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#0284C7" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Grid Pattern -->
+    <pattern id="cyberGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0284C7" stroke-width="0.8" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes rotateSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulseRing {
+      0% { r: 25px; opacity: 0.9; }
+      100% { r: 160px; opacity: 0; }
+    }
+    @keyframes pulseRingSlow {
+      0% { r: 25px; opacity: 0.8; }
+      100% { r: 160px; opacity: 0; }
+    }
+    @keyframes blipFade {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    @keyframes beaconBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    @keyframes lineGlow {
+      0%, 100% { stroke-opacity: 0.2; }
+      50% { stroke-opacity: 0.7; }
+    }
+    .sweep-arm {
+      transform-origin: 940px 220px;
+      animation: rotateSweep 4.5s linear infinite;
+    }
+    .sonar-1 {
+      animation: pulseRing 3s cubic-bezier(0.1, 0.5, 0.4, 1) infinite;
+    }
+    .sonar-2 {
+      animation: pulseRingSlow 3s cubic-bezier(0.1, 0.5, 0.4, 1) infinite 1.5s;
+    }
+    .blip-1 {
+      animation: blipFade 2.2s ease-in-out infinite;
+      transform-origin: 990px 170px;
+    }
+    .blip-2 {
+      animation: blipFade 2.8s ease-in-out infinite 0.7s;
+      transform-origin: 890px 260px;
+    }
+    .blip-3 {
+      animation: blipFade 3.1s ease-in-out infinite 1.4s;
+      transform-origin: 1010px 280px;
+    }
+    .beacon {
+      animation: beaconBlink 1.4s ease-in-out infinite;
+    }
+    .glow-border {
+      animation: lineGlow 3s ease-in-out infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Background Layer -->
+  <rect width="1200" height="440" rx="16" fill="url(#bgGrad)"/>
+  <rect width="1200" height="440" rx="16" fill="url(#cyberGrid)"/>
+
+  <!-- Top Ambient Glow Line -->
+  <line x1="100" y1="0" x2="1100" y2="0" stroke="url(#cyanGlow)" stroke-width="2" filter="url(#softGlow)"/>
+
+  <!-- Outer Card Border -->
+  <rect x="1" y="1" width="1198" height="438" rx="15" fill="none" stroke="#0EA5E9" stroke-width="1.2" stroke-opacity="0.3"/>
+
+  <!-- LEFT BRANDING & TITLES -->
+  <g transform="translate(60, 60)">
+    <!-- Category Pill -->
+    <rect x="0" y="0" width="370" height="28" rx="14" fill="#0369A1" fill-opacity="0.2" stroke="#38BDF8" stroke-width="1" stroke-opacity="0.4"/>
+    <circle cx="16" cy="14" r="4" fill="#38BDF8" class="beacon"/>
+    <text x="30" y="19" fill="#7DD3FC" font-size="11" font-weight="700" letter-spacing="1.5" class="code-font">AUTONOMOUS BUG REPLAY &amp; AUTO-SHIELD</text>
+
+    <!-- Main Title: REPROLENS -->
+    <g transform="translate(0, 48)">
+      <!-- Logo Icon -->
+      <rect x="0" y="4" width="46" height="46" rx="12" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.8" filter="url(#softGlow)"/>
+      <text x="14" y="38" fill="#FFFFFF" font-size="30" font-weight="900" class="tech-font">R</text>
+
+      <!-- App Name -->
+      <text x="62" y="40" fill="#FFFFFF" font-size="44" font-weight="900" letter-spacing="2" class="tech-font">REPRO<tspan fill="#38BDF8">LENS</tspan></text>
+    </g>
+
+    <!-- Tagline -->
+    <text x="0" y="142" fill="#94A3B8" font-size="16" font-weight="400" class="tech-font">
+      Deterministic Headless Playwright Replay &amp; 0-Second Live Runtime Self-Healing
+    </text>
+
+    <!-- Real-time Status Row -->
+    <g transform="translate(0, 172)">
+      <rect x="0" y="0" width="430" height="34" rx="8" fill="#041E2F" stroke="#0284C7" stroke-width="1" stroke-opacity="0.4"/>
+      <circle cx="18" cy="17" r="5" fill="#10B981" class="beacon"/>
+      <text x="34" y="22" fill="#A7F3D0" font-size="12" font-weight="600" class="code-font">
+        RADAR ACTIVE: DOM CLICKSTREAM &amp; 500s MONITORED
+      </text>
+    </g>
+
+    <!-- 3 Metrics Glassmorphism Cards -->
+    <g transform="translate(0, 226)">
+      <!-- Metric 1: MTTS -->
+      <rect x="0" y="0" width="150" height="70" rx="10" fill="#0A152E" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+      <text x="16" y="28" fill="#38BDF8" font-size="20" font-weight="800" class="code-font">&lt; 0.8s</text>
+      <text x="16" y="50" fill="#64748B" font-size="11" font-weight="600" class="tech-font">Mean Time To Shield</text>
+
+      <!-- Metric 2: Fidelity -->
+      <rect x="166" y="0" width="150" height="70" rx="10" fill="#0A152E" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+      <text x="182" y="28" fill="#34D399" font-size="20" font-weight="800" class="code-font">100%</text>
+      <text x="182" y="50" fill="#64748B" font-size="11" font-weight="600" class="tech-font">Deterministic Replay</text>
+
+      <!-- Metric 3: Zero-PII -->
+      <rect x="332" y="0" width="150" height="70" rx="10" fill="#0A152E" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+      <text x="348" y="28" fill="#A78BFA" font-size="20" font-weight="800" class="code-font">0-Leak</text>
+      <text x="348" y="50" fill="#64748B" font-size="11" font-weight="600" class="tech-font">Luhn Card Scrubber</text>
+    </g>
+  </g>
+
+  <!-- RIGHT RADAR SCANNER VISUALIZATION (940, 220) -->
+  <g id="radar-system">
+    <!-- Radar Ambient Background -->
+    <circle cx="940" cy="220" r="165" fill="#02142B" fill-opacity="0.5" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+
+    <!-- Concentric Range Rings -->
+    <circle cx="940" cy="220" r="40" fill="none" stroke="#0284C7" stroke-width="1" stroke-opacity="0.25"/>
+    <circle cx="940" cy="220" r="80" fill="none" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+    <circle cx="940" cy="220" r="120" fill="none" stroke="#0284C7" stroke-width="1" stroke-opacity="0.35"/>
+    <circle cx="940" cy="220" r="160" fill="none" stroke="#0EA5E9" stroke-width="1.4" stroke-opacity="0.45" stroke-dasharray="4 4"/>
+
+    <!-- Crosshairs & Angle Ticks -->
+    <line x1="770" y1="220" x2="1110" y2="220" stroke="#0284C7" stroke-width="1" stroke-opacity="0.25"/>
+    <line x1="940" y1="50" x2="940" y2="390" stroke="#0284C7" stroke-width="1" stroke-opacity="0.25"/>
+
+    <!-- 45-degree diagonals -->
+    <line x1="827" y1="107" x2="1053" y2="333" stroke="#0284C7" stroke-width="0.8" stroke-opacity="0.15"/>
+    <line x1="827" y1="333" x2="1053" y2="107" stroke="#0284C7" stroke-width="0.8" stroke-opacity="0.15"/>
+
+    <!-- Animated Expanding Sonar Waves -->
+    <circle cx="940" cy="220" r="25" fill="none" stroke="#38BDF8" stroke-width="2" class="sonar-1"/>
+    <circle cx="940" cy="220" r="25" fill="none" stroke="#0EA5E9" stroke-width="1.8" class="sonar-2"/>
+
+    <!-- Rotating Radar Sweep Wedge -->
+    <g class="sweep-arm">
+      <!-- Sector Wedge (60 degrees) -->
+      <path d="M 940 220 L 1100 220 A 160 160 0 0 0 1078 140 Z" fill="url(#radarSweep)"/>
+      <!-- Leading Edge Line -->
+      <line x1="940" y1="220" x2="1100" y2="220" stroke="#38BDF8" stroke-width="2" filter="url(#softGlow)"/>
+    </g>
+
+    <!-- Radar Blips (Simulated Bug Coordinates Detected) -->
+    <g class="blip-1">
+      <circle cx="990" cy="170" r="4.5" fill="#EF4444" filter="url(#softGlow)"/>
+      <circle cx="990" cy="170" r="12" fill="none" stroke="#EF4444" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="1004" y="174" fill="#FCA5A5" font-size="9" font-weight="700" class="code-font">DOM-500</text>
+    </g>
+
+    <g class="blip-2">
+      <circle cx="890" cy="260" r="4" fill="#F59E0B" filter="url(#softGlow)"/>
+      <circle cx="890" cy="260" r="10" fill="none" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="836" y="264" fill="#FCD34D" font-size="9" font-weight="700" class="code-font">STALL 60ms</text>
+    </g>
+
+    <g class="blip-3">
+      <circle cx="1010" cy="280" r="4" fill="#10B981" filter="url(#softGlow)"/>
+      <circle cx="1010" cy="280" r="10" fill="none" stroke="#10B981" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="1022" y="284" fill="#6EE7B7" font-size="9" font-weight="700" class="code-font">SHIELDED</text>
+    </g>
+
+    <!-- Center Reticle Indicator -->
+    <circle cx="940" cy="220" r="12" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.8"/>
+    <circle cx="940" cy="220" r="3.5" fill="#FFFFFF"/>
+    <text x="940" y="248" fill="#38BDF8" font-size="9" font-weight="800" text-anchor="middle" class="code-font">TARGET 0,0</text>
+  </g>
+</svg>

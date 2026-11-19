@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="splitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040813"/>
+      <stop offset="50%" stop-color="#070E1E"/>
+      <stop offset="100%" stop-color="#03060E"/>
+    </linearGradient>
+
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulseRed {
+      0%, 100% { stroke-opacity: 0.3; }
+      50% { stroke-opacity: 0.85; }
+    }
+    @keyframes pulseGreen {
+      0%, 100% { stroke-opacity: 0.35; }
+      50% { stroke-opacity: 0.95; }
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .red-card {
+      animation: pulseRed 2.5s ease-in-out infinite;
+    }
+    .green-card {
+      animation: pulseGreen 2.5s ease-in-out infinite;
+    }
+    .cursor-anim {
+      animation: cursorBlink 1s infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Frame Background -->
+  <rect width="1200" height="360" rx="14" fill="url(#splitBg)"/>
+  <rect x="1" y="1" width="1198" height="358" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.3"/>
+
+  <!-- Header -->
+  <g transform="translate(40, 32)">
+    <text x="0" y="0" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.5" class="code-font">
+      DUAL-REALITY RUNTIME VERIFICATION: BASELINE CRASH VS. 0-SECOND AUTO-SHIELD
+    </text>
+  </g>
+
+  <!-- LEFT: REALITY A (UNSHIELDED RUNTIME) -->
+  <g transform="translate(40, 56)">
+    <!-- Outer Card -->
+    <rect width="540" height="268" rx="10" fill="#150A0D" stroke="#EF4444" stroke-width="1.4" class="red-card"/>
+    
+    <!-- Title Bar -->
+    <rect x="0" y="0" width="540" height="36" rx="9" fill="#2E0C13"/>
+    <circle cx="20" cy="18" r="4.5" fill="#EF4444"/>
+    <text x="34" y="22" fill="#FCA5A5" font-size="11" font-weight="700" letter-spacing="1" class="code-font">REALITY A: UNPROTECTED PRODUCTION CRASH</text>
+    <rect x="420" y="8" width="100" height="20" rx="4" fill="#7F1D1D"/>
+    <text x="470" y="22" fill="#FECACA" font-size="9" font-weight="800" text-anchor="middle" class="code-font">CRASHED (500)</text>
+
+    <!-- Terminal Output -->
+    <g transform="translate(18, 54)">
+      <rect width="504" height="130" rx="6" fill="#0D0406" stroke="#450A0A" stroke-width="1"/>
+      <text x="14" y="24" fill="#F87171" font-size="11" font-weight="600" class="code-font">[FATAL ERROR] 12:04:19.482 UTC</text>
+      <text x="14" y="44" fill="#E2E8F0" font-size="11" class="code-font">Uncaught TypeError: Cannot read properties of undefined</text>
+      <text x="14" y="62" fill="#E2E8F0" font-size="11" class="code-font">&nbsp;&nbsp;at renderCheckoutSummary (CheckoutModal.tsx:84:19)</text>
+      <text x="14" y="80" fill="#E2E8F0" font-size="11" class="code-font">&nbsp;&nbsp;at ReactCompositeComponent.mountComponent</text>
+      <text x="14" y="104" fill="#EF4444" font-size="11" font-weight="700" class="code-font">&gt; Component Tree Unmounted (DOM Whitescreen)</text>
+    </g>
+
+    <!-- Impact Bar -->
+    <g transform="translate(18, 200)">
+      <rect width="504" height="52" rx="6" fill="#1F080C" stroke="#7F1D1D" stroke-width="1"/>
+      <text x="14" y="22" fill="#94A3B8" font-size="10" font-weight="600" class="tech-font">BUSINESS IMPACT</text>
+      <text x="14" y="40" fill="#F87171" font-size="12" font-weight="800" class="code-font">CUSTOMER ABANDONED CHECKOUT | REVENUE LOST: $4,820</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: REALITY B (REPROLENS AUTO-SHIELD) -->
+  <g transform="translate(620, 56)">
+    <!-- Outer Card -->
+    <rect width="540" height="268" rx="10" fill="#051711" stroke="#10B981" stroke-width="1.6" class="green-card" filter="url(#glowGreen)"/>
+    
+    <!-- Title Bar -->
+    <rect x="0" y="0" width="540" height="36" rx="9" fill="#063E2D"/>
+    <circle cx="20" cy="18" r="4.5" fill="#10B981"/>
+    <text x="34" y="22" fill="#6EE7B7" font-size="11" font-weight="700" letter-spacing="1" class="code-font">REALITY B: REPROLENS AUTO-SHIELD IMMUNIZED</text>
+    <rect x="420" y="8" width="100" height="20" rx="4" fill="#065F46"/>
+    <text x="470" y="22" fill="#A7F3D0" font-size="9" font-weight="800" text-anchor="middle" class="code-font">SHIELD ACTIVE</text>
+
+    <!-- Terminal Output -->
+    <g transform="translate(18, 54)">
+      <rect width="504" height="130" rx="6" fill="#020E0A" stroke="#064E3B" stroke-width="1"/>
+      <text x="14" y="24" fill="#34D399" font-size="11" font-weight="600" class="code-font">[SHIELD TRAP] 12:04:19.483 UTC (+0.8ms)</text>
+      <text x="14" y="44" fill="#E2E8F0" font-size="11" class="code-font">Intercepted TypeError at CheckoutModal.tsx:84:19</text>
+      <text x="14" y="62" fill="#E2E8F0" font-size="11" class="code-font">Injected Safe Null-Object: { items: [], total: 0.00 }</text>
+      <text x="14" y="80" fill="#E2E8F0" font-size="11" class="code-font">Service Worker Proxy deployed: reprolens-shield.sw.js</text>
+      <text x="14" y="104" fill="#10B981" font-size="11" font-weight="700" class="code-font">&gt; Visitor Fully Insulated | 0% Crash Rate<tspan fill="#34D399" class="cursor-anim">_</tspan></text>
+    </g>
+
+    <!-- Impact Bar -->
+    <g transform="translate(18, 200)">
+      <rect width="504" height="52" rx="6" fill="#04261C" stroke="#065F46" stroke-width="1"/>
+      <text x="14" y="22" fill="#A7F3D0" font-size="10" font-weight="600" class="tech-font">BUSINESS VALUE DELIVERED</text>
+      <text x="14" y="40" fill="#34D399" font-size="12" font-weight="800" class="code-font">0-SEC DOWNTIME | CHECKOUT RETAINED | REVENUE PROTECTED: $4,820</text>
+    </g>
+  </g>
+</svg>

@@ -1,6 +1,10 @@
 # ReproLens
 
 <p align="center">
+  <img src="docs/assets/banner.svg" alt="ReproLens Autonomous Platform Banner" width="100%" />
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Platform-Autonomous%20Bug%20Investigation-0F172A?style=for-the-badge&labelColor=0284C7" alt="Platform" />
   <img src="https://img.shields.io/badge/Auto--Shield-0--Second%20Live%20Immunity-0F172A?style=for-the-badge&labelColor=10B981" alt="Auto-Shield" />
   <img src="https://img.shields.io/badge/Playwright-Deterministic%20Headless%20Replay-0F172A?style=for-the-badge&labelColor=F59E0B" alt="Playwright" />
@@ -9,15 +13,17 @@
 </p>
 
 <p align="center">
-  <strong>Autonomous Bug Investigation, Deterministic Browser Reproduction &amp; 0-Second Live Runtime Self-Healing Platform</strong>
+  <strong>Autonomous Bug Investigation, Deterministic Playwright Replay &amp; 0-Second Live Runtime Self-Healing Platform</strong>
 </p>
 
 <p align="center">
-  <a href="#key-capabilities">Key Capabilities</a> &bull;
+  <a href="#executive-summary">Executive Summary</a> &bull;
   <a href="#pipeline-architecture">Pipeline Architecture</a> &bull;
-  <a href="#comparison">ReproLens vs Traditional APMs</a> &bull;
+  <a href="#dual-reality-verification">Dual-Reality Sandbox</a> &bull;
+  <a href="#platform-ui-showcase">Platform UI Showcase</a> &bull;
+  <a href="#extension--chaos-simulator">Extension &amp; Chaos Simulator</a> &bull;
+  <a href="#feature-comparison">Comparison</a> &bull;
   <a href="#quickstart">Quickstart</a> &bull;
-  <a href="#extension-setup">Extension Setup</a> &bull;
   <a href="#security--privacy">Security &amp; Privacy</a>
 </p>
 
@@ -25,84 +31,90 @@
 
 ## Executive Summary
 
-Traditional monitoring tools (Sentry, Datadog, LogRocket) passively log errors after customer crashes have already caused checkout drop-offs and data degradation. Software engineers are then forced to manually decipher minified stack traces, hunt through complex directory trees, and attempt to recreate user environments with trial and error.
+Traditional monitoring solutions (Sentry, Datadog, LogRocket) operate as passive crash dumpers: after a critical checkout or data crash occurs, engineers must decipher minified stack traces, search directory trees, and manually guess user state through trial and error.
 
-**ReproLens reverses this workflow entirely:**
-1. **Captures Evidence Silently**: A 45-second circular flight recorder records DOM clickstreams, network headers, and runtime exceptions.
-2. **Scrubs Sensitive Data Locally**: An on-device Luhn mathematical validator and RFC regex scrub credit cards, passwords, and bearer tokens before transmission.
-3. **Deterministic Headless Reproduction**: Isolated Playwright Chromium instances recreate matching viewports, user agents, cookies, and mock network responses to reproduce bugs with 100% fidelity.
-4. **0-Second Auto-Shield Immunization**: Deploys client-side AST exception traps and Service Worker micro-proxies (`reprolens-shield.sw.js`) that intercept live visitor crashes in real time with `<1.2ms` overhead without emergency server redeployments.
-5. **1-Click Local IDE Dispatch**: Dispatches exact `vscode://` and `cursor://` protocol jumps to the root cause line, automatically copying verified AST fallback patches.
+**ReproLens reverses this entire paradigm:**
+1. **Continuous Black-Box Flight Recorder**: A 45-second circular ring buffer captures raw DOM clickstreams, network headers, and runtime exceptions.
+2. **On-Device Zero-PII Scrubber**: Pre-flight Luhn algorithm, RFC regex, and token filters scrub credit cards, passwords, and bearer headers in the browser before transmission.
+3. **Deterministic Headless Reproduction**: Isolated Playwright Chromium instances recreate matching viewports, user agents, cookies, and mock network routes to reproduce bugs with 100% fidelity.
+4. **0-Second Auto-Shield Runtime**: Deploys client-side AST exception traps and Service Worker micro-proxies (`reprolens-shield.sw.js`) that intercept live visitor crashes in real time with `<1.2ms` overhead without server redeployments.
+5. **1-Click Local IDE Protocol Dispatch**: Dispatches direct `vscode://` and `cursor://` protocol jumps to the root cause line, automatically copying verified AST fallback patches.
 6. **Safe Manual PR Studio**: Strictly enforces a **Zero-Auto-Push Policy** requiring explicit human inspection of before/after code diffs before modifying repositories.
 
 ---
 
 ## Pipeline Architecture
 
-```mermaid
-flowchart LR
-    A["Client Browser\n(Flight Recorder)"] --> B["On-Device\nZero-PII Scrubber"]
-    B --> C["FastAPI\nAutonomous Core"]
-    C --> D["Playwright Headless\nReproduction Engine"]
-    D --> E["Dual-Reality\nSplit Sandbox"]
-    E --> F["Autonomous Auto-Shield\n(0-Sec Live Immunity)"]
-    F --> G{"Domain Ownership\nRouter"}
-    G -->|"Verified Repo"| H["Manual GitHub\nPR Studio"]
-    G -->|"External Site"| I["Passive Replay\nAudit Mode"]
-    H --> J["1-Click IDE Jump\n(VS Code / Cursor)"]
-    H --> K["Auto-Close Webhook\n(PR Merged -> Resolved)"]
-```
+<p align="center">
+  <img src="docs/assets/pipeline.svg" alt="Autonomous Execution Graph" width="100%" />
+</p>
+
+### 11-Stage Autonomous Execution Graph:
+- **01. Flight Recorder**: Continuous 45-second circular buffer recording user interactions, DOM mutations, and network requests across production tabs.
+- **02. On-Device Zero-PII Scrubber**: Client-side mathematical Luhn algorithm and RFC regex scrub credit cards, passwords, and auth headers before transmission.
+- **03. FastAPI Autonomous Core**: Central orchestration ingestion pipeline storing events, computing fingerprint hashes, and scheduling headless replay workers.
+- **04. Playwright Headless Reproduction**: Automated headless Chromium replay simulating matching viewports, user agents, and network intercepts to recreate crashes deterministically.
+- **05. Root Cause Analysis (RCA)**: Pinpoints the faulty component, source file, line, and column using sourcemap reconstruction and AST inspection.
+- **06. AST Patch Synthesis**: Synthesizes verified defensive code fallbacks and null-safe guards to eliminate runtime unmounting.
+- **07. Dual-Reality Split Verification**: Executes Reality A (baseline crash) side-by-side with Reality B (AST resilient fallback) live in the browser.
+- **08. 0-Second Auto-Shield Immunization**: Deploys live client-side AST traps and Service Worker micro-proxies with 24-hour auto-expiring TTL.
+- **09. Safe Manual GitHub PR Studio**: Zero-Auto-Push policy gate allowing developers to inspect full code diffs before creating GitHub pull requests.
+- **10. 1-Click IDE Deep-Link Dispatch**: Direct `vscode://` and `cursor://` protocol jumps straight to the faulty line, copying the AST fallback patch to the clipboard.
+- **11. Webhook Auto-Close Synchronization**: Production GitHub webhook receives merge events, automatically retiring active shields and resolving the bug report.
 
 ---
 
-## Key Capabilities
+## Dual-Reality Verification
 
-### 1. Autonomous Auto-Shield Immune System
-- **Zero-Redeploy Runtime Immunity**: Injects AST exception traps and a Service Worker network proxy (`reprolens-shield.sw.js`) to insulate live visitors from active crashes.
-- **Revenue Protection Telemetry**: Real-time tracking of crashes prevented, visitors shielded, and financial checkout volume protected.
-- **24-Hour Auto-Expire TTL**: Injected defensive fallbacks automatically clean up once the permanent pull request is merged into production.
+<p align="center">
+  <img src="docs/assets/split-sandbox.svg" alt="Dual-Reality Split Sandbox" width="100%" />
+</p>
 
-### 2. Deterministic Playwright Browser Reproduction
-- Spawns headless Chromium sessions using exact user viewports (desktop 1440x900 or mobile 390x844), cookies, user agents, and simulated network throttling.
-- Intercepts failing network routes (e.g. `HTTP 500 Internal Server Error`), executes recorded click coordinates, and captures filmstrip verification screenshots.
-
-### 3. Safe Manual GitHub PR Studio
-- **Strict Zero-Auto-Push Policy**: ReproLens never pushes unsolicited commits or opens branches on personal or corporate Git repositories without manual approval.
-- Full before/after code diff inspection view with an interactive repository target selector requiring explicit developer confirmation.
-
-### 4. 1-Click IDE Deep-Link Protocol Dispatch
-- Constructs direct `vscode://file/...` and `cursor://file/...` URI protocols.
-- Moves the developer's local editor cursor straight to the exact faulty line and column.
-- Automatically places the verified AST fallback patch onto the system clipboard for immediate application.
-
-### 5. Dual-Reality Split Component Sandbox
-- Runs **Reality A** (unpatched crash baseline) side-by-side with **Reality B** (AST resilient fallback) live in the browser.
-- Mathematically validates component resilience and verifies 0% runtime unmounting without requiring page reloads.
-
-### 6. AI Voice Diagnostic Briefing (Audio RCA)
-- Generates a calibrated 30-second natural speech executive audio briefing for on-call triage and daily engineering standups.
-- Features a synchronized transcript, 5-bar animated waveform equalizer, and adjustable playback speeds (1x, 1.25x, 1.5x).
-
-### 7. Performance & Memory Leak Radar
-- 10-second continuous telemetry tracking JS Heap allocation velocity in MB/s.
-- Real-time 60 FPS stall detection alerting when main-thread frame renders dip below 30 FPS.
-- Isolates blocking long tasks exceeding 50ms thresholds.
-
-### 8. Interactive n8n Workflow Canvas
-- High-fidelity reactive node canvas visualizing all 11 stages of the bug lifecycle.
-- Bezier curve signal noodles, conditional branching (host mismatch routing), and live execution simulation.
+ReproLens runs both realities in parallel without requiring page reloads:
+- **Reality A (Unshielded Crash)**: Simulates the unmitigated production environment. Demonstrates component tree unmounting, white-screen failures, and cart drop-offs.
+- **Reality B (ReproLens Auto-Shield)**: Injects verified AST exception traps and defensive safe objects within 0.8ms, insulating visitors from crashes while keeping checkout flows 100% operational.
 
 ---
 
-## ReproLens vs Traditional APMs
+## Platform UI Showcase
 
-| Feature | Sentry / Datadog | LogRocket | ReproLens |
+### Enterprise Landing Page
+<p align="center">
+  <img src="docs/assets/landing-hero.png" alt="ReproLens Landing Page Hero" width="100%" />
+</p>
+
+### Developer Mission Control Dashboard
+<p align="center">
+  <img src="docs/assets/dashboard-overview.png" alt="ReproLens Dashboard Overview" width="100%" />
+</p>
+
+---
+
+## Extension & Chaos Simulator
+
+<p align="center">
+  <img src="docs/assets/extension-chaos.svg" alt="Chrome Extension and Chaos Simulator" width="100%" />
+</p>
+
+The ReproLens Chrome Extension (Manifest V3) instruments production and staging environments without requiring codebase modifications:
+- **MAIN-World Interception**: Intercepts `window.fetch`, `XMLHttpRequest`, and unhandled promise rejections directly in the client application runtime.
+- **Chaos Simulator Controls**:
+  - **Slow 3G Network Latency (+2.5s)**: Injects network delays to diagnose frontend race conditions and hanging loaders.
+  - **Force API HTTP 500 Drop**: Injects synthetic backend server failures to test application error boundary resilience.
+  - **Black-Box Flight Recorder (45s Ring Buffer)**: Records the last 45 seconds of interaction history, discarded automatically unless a crash occurs.
+- **Ambient Hunter Radar**: Background radar telemetry scanning DOM mutations and network anomalies across open browser tabs.
+
+---
+
+## Feature Comparison
+
+| Capability | Sentry / Datadog | LogRocket | ReproLens |
 | :--- | :---: | :---: | :---: |
-| **Crash Logging** | Yes | Yes | Yes |
-| **Deterministic Browser Replay** | No (DOM diff only) | No (DOM video only) | **Yes (Full Headless Playwright Execution)** |
-| **0-Sec Live Browser Immunity** | No | No | **Yes (Auto-Shield Runtime Traps)** |
+| **Crash Logging** | Yes | Yes | **Yes** |
+| **Deterministic Browser Replay** | No (DOM diff only) | No (DOM video only) | **Yes (Full Headless Playwright Replay)** |
+| **0-Sec Live Runtime Immunity** | No | No | **Yes (Auto-Shield Runtime Traps)** |
 | **On-Device Luhn Card Scrubbing** | Server-side regex | Partial | **Yes (Pre-flight Client-Side Zero-PII)** |
-| **IDE Protocol Deep-Link** | No | No | **Yes (VS Code & Cursor Line/Col Jump)** |
+| **IDE Protocol Deep-Link** | No | No | **Yes (VS Code &amp; Cursor Line/Col Jump)** |
 | **Dual-Reality Split Sandbox** | No | No | **Yes (Reality A vs Reality B)** |
 | **Voice Audio RCA Briefing** | No | No | **Yes (Web Speech API Synthesizer)** |
 | **Safe Manual PR Gate** | No | No | **Yes (Zero-Auto-Push Confirmation)** |

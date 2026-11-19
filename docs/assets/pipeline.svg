@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="pipeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050C1A"/>
+      <stop offset="50%" stop-color="#08142C"/>
+      <stop offset="100%" stop-color="#040914"/>
+    </linearGradient>
+
+    <linearGradient id="cableGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="50%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+
+    <filter id="softGlow2" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <pattern id="smallGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#0284C7" stroke-width="0.6" stroke-opacity="0.1"/>
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes flowPulse {
+      from { stroke-dashoffset: 150; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes stationGlow {
+      0%, 100% { stroke-opacity: 0.3; }
+      50% { stroke-opacity: 0.8; }
+    }
+    @keyframes liveBeacon {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+    .flow-line {
+      stroke-dasharray: 8 12;
+      animation: flowPulse 3s linear infinite;
+    }
+    .station-box {
+      animation: stationGlow 4s ease-in-out infinite;
+    }
+    .beacon-pulse {
+      animation: liveBeacon 1.8s ease-in-out infinite;
+    }
+    .tech-font {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .code-font {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Card Frame -->
+  <rect width="1200" height="380" rx="14" fill="url(#pipeBg)"/>
+  <rect width="1200" height="380" rx="14" fill="url(#smallGrid)"/>
+  <rect x="1" y="1" width="1198" height="378" rx="13" fill="none" stroke="#0284C7" stroke-width="1.2" stroke-opacity="0.35"/>
+
+  <!-- Top Title Bar -->
+  <g transform="translate(40, 36)">
+    <circle cx="6" cy="6" r="4" fill="#10B981" class="beacon-pulse"/>
+    <text x="20" y="10" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.5" class="code-font">
+      AUTONOMOUS EXECUTION GRAPH: 11-STAGE SELF-HEALING ARTIFACT LIFECYCLE
+    </text>
+    <text x="1120" y="10" fill="#64748B" font-size="11" font-weight="600" text-anchor="end" class="code-font">
+      CYCLE LATENCY: 0.8s
+    </text>
+  </g>
+
+  <!-- CONNECTING CABLES (BEZIER PATHS) -->
+  <g fill="none">
+    <!-- Base Static Conduit -->
+    <path d="M 180 180 C 230 180, 240 180, 290 180" stroke="#0C4A6E" stroke-width="3" stroke-opacity="0.4"/>
+    <path d="M 430 180 C 480 180, 490 180, 540 180" stroke="#0C4A6E" stroke-width="3" stroke-opacity="0.4"/>
+    <path d="M 680 180 C 730 180, 740 180, 790 180" stroke="#0C4A6E" stroke-width="3" stroke-opacity="0.4"/>
+    <path d="M 930 180 C 980 180, 990 180, 1040 180" stroke="#0C4A6E" stroke-width="3" stroke-opacity="0.4"/>
+
+    <!-- Animated Flow Energy Noodles -->
+    <path d="M 180 180 C 230 180, 240 180, 290 180" stroke="#38BDF8" stroke-width="2.5" class="flow-line" filter="url(#softGlow2)"/>
+    <path d="M 430 180 C 480 180, 490 180, 540 180" stroke="#38BDF8" stroke-width="2.5" class="flow-line" filter="url(#softGlow2)"/>
+    <path d="M 680 180 C 730 180, 740 180, 790 180" stroke="#34D399" stroke-width="2.5" class="flow-line" filter="url(#softGlow2)"/>
+    <path d="M 930 180 C 980 180, 990 180, 1040 180" stroke="#A78BFA" stroke-width="2.5" class="flow-line" filter="url(#softGlow2)"/>
+  </g>
+
+  <!-- 5 PIPELINE NODES -->
+
+  <!-- NODE 1: Browser Flight Recorder -->
+  <g transform="translate(40, 100)">
+    <rect width="140" height="160" rx="10" fill="#0A162B" stroke="#0284C7" stroke-width="1.2" class="station-box"/>
+    <rect x="0" y="0" width="140" height="26" rx="8" fill="#032644"/>
+    <text x="12" y="17" fill="#7DD3FC" font-size="10" font-weight="700" class="code-font">01 // FLIGHT REC</text>
+    <text x="12" y="52" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Browser DOM</text>
+    <text x="12" y="68" fill="#38BDF8" font-size="13" font-weight="700" class="tech-font">Capture Hub</text>
+    <line x1="12" y1="82" x2="128" y2="82" stroke="#0C4A6E" stroke-width="0.8"/>
+    <text x="12" y="102" fill="#94A3B8" font-size="9" class="code-font">&gt; 45s Ring Buffer</text>
+    <text x="12" y="118" fill="#94A3B8" font-size="9" class="code-font">&gt; DOM Clickstream</text>
+    <text x="12" y="134" fill="#94A3B8" font-size="9" class="code-font">&gt; Fetch / XHR 500s</text>
+    <circle cx="126" cy="14" r="3.5" fill="#38BDF8" class="beacon-pulse"/>
+  </g>
+
+  <!-- NODE 2: Zero-PII Scrubber -->
+  <g transform="translate(290, 100)">
+    <rect width="140" height="160" rx="10" fill="#0A162B" stroke="#6366F1" stroke-width="1.2" class="station-box"/>
+    <rect x="0" y="0" width="140" height="26" rx="8" fill="#1E1B4B"/>
+    <text x="12" y="17" fill="#A5B4FC" font-size="10" font-weight="700" class="code-font">02 // SCRUBBER</text>
+    <text x="12" y="52" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Client-Side</text>
+    <text x="12" y="68" fill="#818CF8" font-size="13" font-weight="700" class="tech-font">Zero-PII Gate</text>
+    <line x1="12" y1="82" x2="128" y2="82" stroke="#312E81" stroke-width="0.8"/>
+    <text x="12" y="102" fill="#94A3B8" font-size="9" class="code-font">&gt; Luhn Algorithm</text>
+    <text x="12" y="118" fill="#94A3B8" font-size="9" class="code-font">&gt; Bearer Token Purge</text>
+    <text x="12" y="134" fill="#94A3B8" font-size="9" class="code-font">&gt; RFC Email Masking</text>
+    <circle cx="126" cy="14" r="3.5" fill="#818CF8" class="beacon-pulse"/>
+  </g>
+
+  <!-- NODE 3: Deterministic Playwright Engine -->
+  <g transform="translate(540, 100)">
+    <rect width="140" height="160" rx="10" fill="#0A162B" stroke="#F59E0B" stroke-width="1.2" class="station-box"/>
+    <rect x="0" y="0" width="140" height="26" rx="8" fill="#451A03"/>
+    <text x="12" y="17" fill="#FCD34D" font-size="10" font-weight="700" class="code-font">03 // PLAYWRIGHT</text>
+    <text x="12" y="52" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Deterministic</text>
+    <text x="12" y="68" fill="#FBBF24" font-size="13" font-weight="700" class="tech-font">Replay Core</text>
+    <line x1="12" y1="82" x2="128" y2="82" stroke="#78350F" stroke-width="0.8"/>
+    <text x="12" y="102" fill="#94A3B8" font-size="9" class="code-font">&gt; Headless Chromium</text>
+    <text x="12" y="118" fill="#94A3B8" font-size="9" class="code-font">&gt; Matching Viewports</text>
+    <text x="12" y="134" fill="#94A3B8" font-size="9" class="code-font">&gt; Network Mocking</text>
+    <circle cx="126" cy="14" r="3.5" fill="#FBBF24" class="beacon-pulse"/>
+  </g>
+
+  <!-- NODE 4: 0-Second Auto-Shield Runtime -->
+  <g transform="translate(790, 100)">
+    <rect width="140" height="160" rx="10" fill="#08231C" stroke="#10B981" stroke-width="1.4" class="station-box" filter="url(#softGlow2)"/>
+    <rect x="0" y="0" width="140" height="26" rx="8" fill="#064E3B"/>
+    <text x="12" y="17" fill="#6EE7B7" font-size="10" font-weight="700" class="code-font">04 // AUTO-SHIELD</text>
+    <text x="12" y="52" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">Live 0-Second</text>
+    <text x="12" y="68" fill="#34D399" font-size="13" font-weight="700" class="tech-font">Immunization</text>
+    <line x1="12" y1="82" x2="128" y2="82" stroke="#047857" stroke-width="0.8"/>
+    <text x="12" y="102" fill="#A7F3D0" font-size="9" class="code-font">&gt; AST Exception Trap</text>
+    <text x="12" y="118" fill="#A7F3D0" font-size="9" class="code-font">&gt; SW Micro-Proxy</text>
+    <text x="12" y="134" fill="#A7F3D0" font-size="9" class="code-font">&gt; 24h Auto-Expire</text>
+    <circle cx="126" cy="14" r="3.5" fill="#34D399" class="beacon-pulse"/>
+  </g>
+
+  <!-- NODE 5: Safe Manual PR Gate & IDE -->
+  <g transform="translate(1040, 100)">
+    <rect width="120" height="160" rx="10" fill="#0A162B" stroke="#0EA5E9" stroke-width="1.2" class="station-box"/>
+    <rect x="0" y="0" width="120" height="26" rx="8" fill="#075985"/>
+    <text x="10" y="17" fill="#BAE6FD" font-size="10" font-weight="700" class="code-font">05 // IDE &amp; PR</text>
+    <text x="10" y="52" fill="#FFFFFF" font-size="13" font-weight="700" class="tech-font">1-Click Jump</text>
+    <text x="10" y="68" fill="#38BDF8" font-size="13" font-weight="700" class="tech-font">&amp; Safe PR</text>
+    <line x1="10" y1="82" x2="110" y2="82" stroke="#0369A1" stroke-width="0.8"/>
+    <text x="10" y="102" fill="#94A3B8" font-size="9" class="code-font">&gt; vscode:// Deep</text>
+    <text x="10" y="118" fill="#94A3B8" font-size="9" class="code-font">&gt; Zero-Auto-Push</text>
+    <text x="10" y="134" fill="#94A3B8" font-size="9" class="code-font">&gt; Auto-Close Sync</text>
+    <circle cx="106" cy="14" r="3.5" fill="#38BDF8" class="beacon-pulse"/>
+  </g>
+
+  <!-- Bottom Terminal Status Bar -->
+  <g transform="translate(40, 300)">
+    <rect width="1120" height="50" rx="8" fill="#030A14" stroke="#0284C7" stroke-width="1" stroke-opacity="0.3"/>
+    <circle cx="20" cy="25" r="4" fill="#38BDF8" class="beacon-pulse"/>
+    <text x="36" y="29" fill="#94A3B8" font-size="11" class="code-font">
+      PIPELINE STATUS: <tspan fill="#34D399" font-weight="700">OPTIMAL</tspan> | REPRODUCIBILITY GUARANTEE: <tspan fill="#38BDF8" font-weight="700">100% DETERMINISTIC</tspan> | RECOVERY OVERHEAD: <tspan fill="#A78BFA" font-weight="700">&lt; 1.2ms AST EXECUTION</tspan>
+    </text>
+  </g>
+</svg>
